@@ -24,7 +24,7 @@ def insert_default_user(conn):
             cursor.execute('''INSERT INTO Members (username, hashed_password, full_name, email, phone, position, account_balance, access_level, role_id)
                               VALUES ('admin', ?, 'Admin User', 'admin@example.com', 1234567890, 'Administrator', 0, 'superuser',1)''', (default_pass_hash,))
             cursor.execute('''INSERT INTO Members (username, hashed_password, full_name, email, phone, position, account_balance, access_level, role_id)
-                              VALUES ('user', ?, 'Admin User', 'admin@exmple.com', 1234567890, 'Administrator', 0, 'superuser',2)''', (default_pass_hash_user,))
+                              VALUES ('user', ?, 'Admin User', 'admin@exmple.com', 1234567890, 'Administrator', 0, 'executiveuser',2)''', (default_pass_hash_user,))
             conn.commit()
             print("Super user inserted successfully.")
     except sqlite3.Error as e:
@@ -50,6 +50,7 @@ def create_tables(conn):
                                 performance_metrics TEXT,
                                 active_status BOOLEAN,
                                 access_level TEXT NOT NULL,
+                                account_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 role_id TEXT NOT NULL
                             )''')
             
@@ -91,11 +92,11 @@ def create_tables(conn):
 
 
 #MEMBER MANAGEMENT FUNCTIONS
-def add_executive_member(conn, exec_name, exec_position, exec_email, exec_phone, exec_username, hashed_password, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level):
+def add_executive_member(conn, exec_username, exec_name, exec_position, exec_email, exec_phone, hashed_password, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level, role_id):
     if conn is not None:
         try:
             cursor = conn.cursor()
-            
+            print('hello')
             # Check if the username or email already exists
             existing_username = get_member_by_username(conn, exec_username)
             existing_email = get_member_by_email(conn, exec_email)
@@ -110,9 +111,10 @@ def add_executive_member(conn, exec_name, exec_position, exec_email, exec_phone,
                 print("Email already exists. Please choose a different email.")
                 return False
             
-            cursor.execute('''INSERT INTO Members (full_name, position, email, phone, username, hashed_password, account_balance, joined_date, performance_metrics, active_status, access_level)
-                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', (exec_name, exec_position, exec_email, exec_phone, exec_username, hashed_password, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level))
+            cursor.execute('''INSERT INTO Members (full_name, position, email, phone, username, hashed_password, account_balance, joined_date, performance_metrics, active_status, access_level, role_id)
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', (exec_username, exec_name, exec_position, exec_email, exec_phone, hashed_password, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level, role_id))
             conn.commit()
+            st.toast("Executive Member added Successfully")
             st.success("Executive Member added successfully.")
             print("Executive member added successfully.")
             return True
@@ -171,13 +173,13 @@ def get_all_executive_members(conn):
         print("Error: Connection to SQLite database is not established.")
         return None
 
-def update_member_details(conn, member_id, new_details):
+def update_member_details(conn, username, new_details):
     if conn is not None:
         try:
             cursor = conn.cursor()
             cursor.execute('''UPDATE Members SET username = ?, hashed_password = ?, full_name = ?, email = ?, phone = ?, account_balance = ?
-            WHERE member_id = ?''', (new_details['username'], new_details['hashed_password'], new_details['full_name'], new_details['email'], 
-                                                       new_details['phone'], new_details['account_balance'], member_id))
+            WHERE username = ?''', (new_details['username'], new_details['hashed_password'], new_details['full_name'], new_details['email'], 
+                                                       new_details['phone'], new_details['account_balance'], username))
             conn.commit()
             return True
         except sqlite3.Error as e:
