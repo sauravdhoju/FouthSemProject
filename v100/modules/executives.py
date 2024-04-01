@@ -106,16 +106,32 @@ def update_executive_members_ui(conn):
             #     st.error("Member not found.")
                 
 def delete_executive_members_ui(conn):
-    with st.form(key="delete_member"):
-        del_username = st.text_input("Enter Username")
-        delete_button = st.form_submit_button("Delete")
+    email = None
+    with st.form(key="search_form"):
+        username = st.text_input("Search by username or email")
+        col1,col2, col3 = st.columns([5, 2, 1])
+        with col2:
+            search_button = st.form_submit_button("Search")
+        with col3:
+            delete_button = st.form_submit_button("Delete")
 
-        if delete_button:
-            if del_username.strip() == "":
-                st.error("Please enter a valid Member ID.")
+    if search_button:
+        search_results = search_executive_members(conn, username)
+        if search_results:
+            st.write("Search Results:")
+            display_member_table(search_results)
+            # print(type(search_results))
+            # print(search_results)
+            email = search_results[0][4] if search_results else None
+        else:
+            st.write("No matching executive members found.")
+    
+    if delete_button:
+        if username.strip() == "":
+            st.error('Please enter valid username or email')
+        else:
+            delete = delete_member(conn,username, email)
+            if delete:
+                st.success("Deleted Successfully")
             else:
-                success = delete_member(conn, del_username)
-                if success:
-                    st.success("Member deleted successfully.")
-                else:
-                    st.error("Failed to delete member.")
+                st.error("Failed to Delete")

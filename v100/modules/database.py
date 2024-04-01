@@ -152,7 +152,7 @@ def search_executive_members(conn, username):
         try:
             cursor = conn.cursor()
             # Search for executive members by name or email
-            cursor.execute('''SELECT * FROM Members WHERE full_name LIKE ? OR email LIKE ?''', ('%' + username + '%', '%' + username + '%'))
+            cursor.execute('''SELECT * FROM Members WHERE username LIKE ? OR email LIKE ?''', ('%' + username + '%', '%' + username + '%'))
             rows = cursor.fetchall()
             return rows
         except sqlite3.Error as e:
@@ -186,16 +186,25 @@ def update_member_details(conn, username, new_details):
             print(f"SQLite error: {e}")
     return False
 
-def delete_member(conn, del_username):
+def delete_member(conn, del_username, del_email):
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute('''DELETE FROM Members WHERE username = ?''', (del_username,))
+            cursor.execute('''DELETE FROM Members WHERE username = ? OR email = ?''', (del_username,del_email))
             conn.commit()
-            return True
+            if cursor.rowcount > 0:
+                print("Member deleted successfully.")
+                return True
+            else:
+                print("No matching member found.")
+                return False
         except sqlite3.Error as e:
             print(f"SQLite error: {e}")
-    return False
+            return False
+    else:
+        print("Connection is None.")
+        return False
+
 
 #TRANSACTION MANAGEMENT FUNCTIONS
 def record_transaction(conn, member_id, amount, purpose, transaction_type,payment_gateway = None):

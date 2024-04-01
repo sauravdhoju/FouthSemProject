@@ -26,6 +26,15 @@ def main():
             },
         )
     with col2_exe_dashboard:
+        st.markdown(
+            """
+            <div style="text-align:center">
+                <h1>Account Management System</h1>
+                <h3>Trojan Club of Robotics-TCR</h3>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         if  selected_option == 'Add Executive Member':
             add_executive_members_ui(conn)
         elif selected_option == 'View Executive Member':
