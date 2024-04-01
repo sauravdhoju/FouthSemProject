@@ -2,7 +2,7 @@
 
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
-from modules.database import create_connection, add_executive_member, search_executive_members, get_all_executive_members, delete_member
+from modules.database import create_connection, add_executive_member, search_executive_members, get_all_executive_members, delete_member, update_member_details
 import datetime
 conn = create_connection()
 
@@ -35,67 +35,87 @@ def add_executive_members_ui(conn):
     with col3:
         pass
 def display_executive_members_ui(conn):
-    search_query = st.text_input("Search by name or email")
-    if st.button("Search"):
-        search_results = search_executive_members(conn, search_query)
+    with st.form(key="search_form"):
+        username = st.text_input("Search by name or email")
+        search_button = st.form_submit_button("Search")
+
+    if search_button:
+        search_results = search_executive_members(conn, username)
         if search_results:
             st.write("Search Results:")
-            search_data = []
-            for result in search_results:
-                # Handle empty phone numbers
-                phone = result[5] if result[5] else "N/A"
-                search_data.append({
-                    "Full Name": result[3],
-                    "Position": result[6],
-                    "Email": result[4],
-                    "Phone": phone,  # Use "N/A" for empty phone numbers
-                    "Username": result[1],
-                    "Account Balance": result[7],
-                    "Joined Date": result[8],
-                    "Performance Metrics": result[9],
-                    "Active Status": "Active" if result[10] else "Inactive",
-                    "Access Level": result[11]
-                })
-            st.table(search_data)
+            display_member_table(search_results)
         else:
             st.write("No matching executive members found.")
     else:
-        executive_members = get_all_executive_members(conn)
-        if executive_members:
-            executive_members.sort(key=lambda x: x[3])
-            member_data = []
-            for member in executive_members:
-                # Handle empty phone numbers
-                phone = member[5] if member[5] else "N/A"
-                member_info = {
-                    "Username": member[1],
-                    "Full Name": member[3],
-                    "Position": member[6],
-                    "Email": member[4],
-                    "Phone": phone,  # Use "N/A" for empty phone numbers
-                    "Account Balance": member[7],
-                    "Joined Date": member[8],
-                    "Performance Metrics": member[9],
-                    "Active Status": "Active" if member[10] else "Inactive",
-                    "Access Level": member[11]
-                }
-                member_data.append(member_info)
-            st.table(member_data)
-        else:
-            st.write("No executive members found.")
-
-
-def delete_executive_members_ui(conn):
-    del_username = st.text_input("Enter Username")
-    if st.button("Delete"):
-        if del_username.strip() == "":
-            print("Invalid Username")
-            st.error("Please enter a valid Member ID.")
-        else:
-            success = delete_member(conn, del_username)
-            if success:
-                print("Delete member")
-                st.success("Member deleted successfully.")
+        with st.form(key="all_members_form"):
+            all_members_button = st.form_submit_button("Show All Executive Members")
+        
+        if all_members_button:
+            executive_members = get_all_executive_members(conn)
+            if executive_members:
+                st.write("All Executive Members:")
+                display_member_table(executive_members)
             else:
-                print("Faile to delete member")
-                st.error("Failed to delete member.")
+                st.write("No executive members found.")
+
+
+def display_member_table(members):
+    member_data = []
+    for member in members:
+        phone = member[5] if member[5] else "N/A"
+        member_info = {
+            "Username": member[1],
+            "Full Name": member[3],
+            "Position": member[6],
+            "Email": member[4],
+            "Phone": phone,
+            "Account Balance": member[7],
+            "Joined Date": member[8],
+            "Performance Metrics": member[9],
+            "Active Status": "Active" if member[10] else "Inactive",
+            "Access Level": member[11]
+        }
+        member_data.append(member_info)
+    st.table(member_data)
+
+def update_executive_members_ui(conn):
+    print("hey")
+    username = st.text_input("Enter Username")
+    if st.button("Search"):
+        if username.strip() == "":
+            st.error("Invalid Username")
+        else:
+            member = display_executive_members_ui(conn, username)
+            if member:
+                st.write("Current Member Details:")
+                display_member_table(member)
+            #     st.subheader("Update Member Details:")
+            #     new_username = st.text_input("New Username", value=member['Username'])
+            #     # new_password = 
+            #     if st.button("Update"):
+            #         new_details = {
+            #             "Username": new_username,
+            #             # Add other fields and get their values
+            #         }
+            #         success = update_member_details(conn, username, new_details)
+            #         if success:
+            #             st.success("Member details updated successfully.")
+            #         else:
+            #             st.error("Failed to update member details.")
+            # else:
+            #     st.error("Member not found.")
+                
+def delete_executive_members_ui(conn):
+    with st.form(key="delete_member"):
+        del_username = st.text_input("Enter Username")
+        delete_button = st.form_submit_button("Delete")
+
+        if delete_button:
+            if del_username.strip() == "":
+                st.error("Please enter a valid Member ID.")
+            else:
+                success = delete_member(conn, del_username)
+                if success:
+                    st.success("Member deleted successfully.")
+                else:
+                    st.error("Failed to delete member.")

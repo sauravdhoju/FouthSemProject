@@ -147,12 +147,12 @@ def get_member_by_email(conn, email):
             print(f"SQLite error: {e}")
     return None
 
-def search_executive_members(conn, search_query):
+def search_executive_members(conn, username):
     if conn is not None:
         try:
             cursor = conn.cursor()
             # Search for executive members by name or email
-            cursor.execute('''SELECT * FROM Members WHERE full_name LIKE ? OR email LIKE ?''', ('%' + search_query + '%', '%' + search_query + '%'))
+            cursor.execute('''SELECT * FROM Members WHERE full_name LIKE ? OR email LIKE ?''', ('%' + username + '%', '%' + username + '%'))
             rows = cursor.fetchall()
             return rows
         except sqlite3.Error as e:
