@@ -1,10 +1,10 @@
 import streamlit as st
-from modules.authenticate import authenticate_user
+from modules.Login_Authenticate import authenticate_user
 
-st.set_page_config(initial_sidebar_state = "collapsed")
+st.set_page_config( layout="wide", initial_sidebar_state = "collapsed")
 st.session_state['is_logged_in'] = False
 def main():
-    col1, col2,col3 = st.columns([1,5,1])  
+    col1, col2,col3 = st.columns([1,2,1])  
     with col1:
         pass
     with col2:
@@ -30,13 +30,13 @@ def main():
                         st.session_state['username'] = username
                         st.session_state['role_id'] = role_id
                         st.success("Logged in as SuperUser")
-                        st.switch_page("pages/0201_Admin_Panel.py")
+                        st.switch_page("pages/Admin_Admin_Panel.py")
                     elif role_id == 2:
                         st.session_state['is_logged_in'] = True
                         st.session_state['username'] = username
                         st.session_state['role_id'] = role_id
                         st.success("Logged in as Executive User")
-                        st.switch_page("pages/0301_Executive_Panel.py")
+                        st.switch_page("pages/Exe_Executive_Panel.py")
                 else:
                     # st.toast("Invalid Usernamr or Pasword")
                     st.error("Invalid username or password")

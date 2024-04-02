@@ -79,31 +79,50 @@ def display_member_table(members):
     st.table(member_data)
 
 def update_executive_members_ui(conn):
-    print("hey")
-    username = st.text_input("Enter Username")
-    if st.button("Search"):
-        if username.strip() == "":
-            st.error("Invalid Username")
+    with st.form(key="update_form"):
+        username_or_email = st.text_input("Search by username or email")
+        col1, col2, col3 = st.columns([5, 2, 1])
+        with col2:
+            search_button = st.form_submit_button("Search")
+        
+    if search_button:
+        search_results = search_executive_members(conn, username_or_email)
+        if search_results:
+            st.write("Search Results:")
+            display_member_table(search_results)
+            # Display the form for updating member details
+            with st.form(key="update_member_details_form"):
+                new_username = st.text_input("New Username")
+                new_password = st.text_input("New Password", type="password")
+                new_full_name = st.text_input("New Full Name")
+                new_email = st.text_input("New Email")
+                new_phone = st.text_input("New Phone")
+                new_account_balance = None
+                update_button = st.form_submit_button("Update")
+            
+                if update_button:
+                    if username_or_email.strip() == "":
+                        st.error('Please enter valid username or email')
+                        print('error correct username or email')
+                    else:
+                        new_details = {
+                            'username': new_username,
+                            'hashed_password': pbkdf2_sha256.hash(new_password),
+                            'full_name': new_full_name,
+                            'email': new_email,
+                            'phone': new_phone,
+                            'account_balance': new_account_balance
+                        }
+                        if update_member_details(conn, username_or_email, new_details):
+                            print('updated')
+                            st.success("Updated Successfully")
+                        else:
+                            print('failed to update')
+                            st.error("Failed to Update")
         else:
-            member = display_executive_members_ui(conn, username)
-            if member:
-                st.write("Current Member Details:")
-                display_member_table(member)
-            #     st.subheader("Update Member Details:")
-            #     new_username = st.text_input("New Username", value=member['Username'])
-            #     # new_password = 
-            #     if st.button("Update"):
-            #         new_details = {
-            #             "Username": new_username,
-            #             # Add other fields and get their values
-            #         }
-            #         success = update_member_details(conn, username, new_details)
-            #         if success:
-            #             st.success("Member details updated successfully.")
-            #         else:
-            #             st.error("Failed to update member details.")
-            # else:
-            #     st.error("Member not found.")
+            st.write("No matching executive members found.")
+
+
                 
 def delete_executive_members_ui(conn):
     email = None

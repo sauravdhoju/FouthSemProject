@@ -1,0 +1,40 @@
+Expense Categories (Expense_Categories):
+
+category_id (INTEGER, PRIMARY KEY): Unique identifier for each expense category.
+category_name (TEXT, UNIQUE, NOT NULL): Name of the expense category. It should be unique and cannot be null.
+Receipts (Receipts):
+
+receipt_id (INTEGER, PRIMARY KEY): Unique identifier for each receipt.
+transaction_id (INTEGER, UNIQUE, NOT NULL): Unique identifier of the transaction associated with the receipt.
+date (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP): Timestamp indicating the date and time when the receipt was created.
+vendor (TEXT): Name of the vendor from whom the expense was incurred.
+amount (REAL, NOT NULL): Amount of the expense.
+category_id (INTEGER): Identifier of the expense category to which the receipt belongs.
+Foreign Key Constraint: References the category_id column in the Expense_Categories table.
+Foreign Key Constraint: References the transaction_id column in the Transactions table.
+Financial Reports (Financial_Reports):
+
+report_id (INTEGER, PRIMARY KEY): Unique identifier for each financial report.
+report_date (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP): Timestamp indicating the date and time when the report was generated.
+description (TEXT): Description or summary of the financial report.
+report_type (TEXT, NOT NULL): Type of the financial report (e.g., Income Statement, Balance Sheet, etc.).
+generated_by (TEXT): Username of the member who generated the report.
+Foreign Key Constraint: References the username column in the Members table.
+Fundraising (Fundraising):
+
+fundraising_id (INTEGER, PRIMARY KEY): Unique identifier for each fundraising activity.
+fundraiser_name (TEXT, NOT NULL): Name or title of the fundraising activity.
+start_date (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP): Timestamp indicating the start date and time of the fundraising activity.
+end_date (TIMESTAMP): Timestamp indicating the end date and time of the fundraising activity.
+goal_amount (REAL): Target amount to be raised for the fundraising activity.
+current_amount (REAL, DEFAULT 0): Current amount raised for the fundraising activity.
+status (TEXT): Current status of the fundraising activity (e.g., ongoing, completed, etc.).
+description (TEXT): Description or details of the fundraising activity.
+Training (Training):
+
+training_id (INTEGER, PRIMARY KEY): Unique identifier for each training event.
+training_name (TEXT, NOT NULL): Name or title of the training event.
+start_date (TIMESTAMP, DEFAULT CURRENT_TIMESTAMP): Timestamp indicating the start date and time of the training event.
+end_date (TIMESTAMP): Timestamp indicating the end date and time of the training event.
+venue (TEXT): Location or venue where the training event will be held.
+description (TEXT): Description or details of the training event.

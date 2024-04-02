@@ -1,18 +1,16 @@
-# pages/admin_page.py
-
 import streamlit as st
 from streamlit_option_menu import option_menu
-from pages.Login_Page import main as login
 
 st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 def main():
-    col1_nav_panel, col2_dashboard_pan= st.columns([1,5])
-    with col1_nav_panel:
+    col1_exec_option_panel, col2_exec_dashboard = st.columns([1,5])
+
+    with col1_exec_option_panel:
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  # Title of the menu
-            options=["Dashboard", "Executives", "Club Expenses", "Bank Transaction", "Logout"], 
-            icons=["house", "people-fill", "wallet2", "bank2", "power"], 
+            options=["Dashboard", "Executives", "Club Expenses", "Bank Transaction", "My Profile", "Logout"], 
+            icons=["house", "people-fill", "wallet2", "bank2", "people" , "power"], 
             menu_icon="th-large",  
             default_index=0, 
             orientation="vertical",  # Orientation of the menu (vertical or horizontal)
@@ -28,18 +26,21 @@ def main():
                 "nav-link-selected": {"background-color": "grey"},
             },
         )
-        if selected_option == "Dashboard":
-            pass
-        if selected_option == "Executives":
-            st.switch_page("pages/0202_Executive_Management.py")
-        if selected_option == "Club Expenses":
-            st.switch_page("pages/Admin_Club_Expenses.py")
-        if selected_option == "Bank Transaction":
-            st.switch_page("pages/Admin_Bank_Transaction.py")
-        if selected_option == "Logout":
-            st.session_state.clear()
-            st.rerun()
-    with col2_dashboard_pan:
+    
+    if selected_option == "Dashboard":
+        pass
+    elif selected_option == "Executives":
+        st.switch_page('pages/Exe_Panel_Executives.py')
+        pass
+    elif selected_option == "Club Expenses":
+        pass
+    elif selected_option == "Bank Trasactions":
+        pass
+    elif selected_option == "My Profile":
+        pass
+    elif selected_option == "Logout":
+        st.switch_page('pages/Login_Page.py')
+    with col2_exec_dashboard:
         st.markdown(
             """
             <div style="text-align:center">
@@ -49,9 +50,7 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        with st.container():
-            pass
-    
+        
 if __name__ == "__main__":
     if 'username' in st.session_state:
         main()
