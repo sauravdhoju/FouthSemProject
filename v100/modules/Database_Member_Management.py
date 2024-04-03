@@ -1,6 +1,58 @@
-import streamlit as st
-import sqlite3
 
+import sqlite3
+import streamlit as st
+from passlib.hash import pbkdf2_sha256
+
+def create_member_table(conn):
+    if conn is not None:
+        try:
+            cursor = conn.cursor()
+#MEMBER TABLE
+            cursor.execute('''CREATE TABLE IF NOT EXISTS Members (
+                                member_id INTEGER PRIMARY KEY,
+                                username TEXT UNIQUE NOT NULL,
+                                hashed_password TEXT NOT NULL,
+                                full_name TEXT NOT NULL,
+                                email TEXT UNIQUE,
+                                phone INTEGER,
+                                position TEXT NOT NULL,
+                                account_balance REAL DEFAULT 0 CHECK (account_balance >= 0),
+                                joined_date DATE,
+                                performance_metrics TEXT,
+                                active_status BOOLEAN,
+                                access_level TEXT NOT NULL,
+                                account_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                role_id TEXT NOT NULL
+                            )''')
+            
+            
+            insert_default_user(conn)   
+            conn.commit()
+            print("Member table created successfully.")
+        except sqlite3.Error as e:
+            print(f"SQLite error: {e}")
+    else:
+        print("Error: Connection to SQLite database is not established.")
+
+
+#DEFAULT USER
+def insert_default_user(conn):
+    default_pass_hash = pbkdf2_sha256.hash('admin')
+    default_pass_hash_user = pbkdf2_sha256.hash('user')
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''SELECT COUNT(*) FROM Members WHERE username = 'admin' AND email = 'admin@example.com' ''')
+        count = cursor.fetchone()[0]
+        if count == 0:
+            cursor.execute('''INSERT INTO Members (username, hashed_password, full_name, email, phone, position, account_balance, access_level, role_id)
+                              VALUES ('admin', ?, 'Admin User', 'admin@example.com', 1234567890, 'Administrator', 0, 'superuser',1)''', (default_pass_hash,))
+            cursor.execute('''INSERT INTO Members (username, hashed_password, full_name, email, phone, position, account_balance, access_level, role_id)
+                              VALUES ('user', ?, 'Admin User', 'admin@exmple.com', 1234567890, 'Administrator', 0, 'executiveuser',2)''', (default_pass_hash_user,))
+            conn.commit()
+            print("Super user inserted successfully.")
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+        
 #MEMBER MANAGEMENT FUNCTIONS
 def add_executive_member(conn, exec_username, exec_name, exec_position, exec_email, exec_phone, hashed_password, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level, role_id):
     if conn is not None:
@@ -95,6 +147,7 @@ def update_member_details(conn, username_or_email, new_details):
         except sqlite3.Error as e:
             print(f"SQLite error: {e}")
     return False
+
 def delete_member(conn, del_username, del_email):
     if conn is not None:
         try:

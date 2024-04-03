@@ -1,5 +1,5 @@
 import sqlite3
-from database import insert_default_user
+# from database import insert_default_user
 
 def create_tables(conn):
     if conn is not None:
@@ -23,7 +23,7 @@ def create_tables(conn):
                                 role_id TEXT NOT NULL
                             )''')
 #INSERTING DEFAULT USER
-            insert_default_user(conn)
+            # insert_default_user(conn)
             
             cursor.execute('''CREATE TABLE IF NOT EXISTS Transactions (
                                 transaction_id INTEGER PRIMARY KEY,
@@ -36,46 +36,9 @@ def create_tables(conn):
                                 FOREIGN KEY (member_id) REFERENCES Members(member_id)
                             )''')
 #CLUB EXPENSES TABLE
-            cursor.execute('''CREATE TABLE IF NOT EXISTS Expense_Categorries (
-                                category_id INTEGER PRIMARY KEY,
-                                category_name UNIQUE NOT NULL
-                            ) ''')
-            cursor.execute('''CREATE TABLE IF NOT EXISTS Receipts (
-                                receipt_id INTEGER PRIMARY KEY,
-                                transaction_id UNIQUE NOT NULL,
-                                date TIMESTAMP DEFAULT CURRENT TIMESTAMP,
-                                vendor TEXT,
-                                amount REAL NOT NULL,
-                                category_id INTEGER,
-                                FOREIGN KEY (transaction_id) REFERENCES (Transaction_id),
-                                FOREIGN KEY (category_id) REFERENCES Expense_Categories(category_id)
-                            ) ''')
-            cursor.execute('''CREATE TABLE IF NOT EXISTS Financial_Reports (
-                                report_id INTEGER PRIMARY KEY,
-                                report_date TIMESTAMP DEFALUT CURRENT_TIMESTAMP,
-                                description TEXT,
-                                report_type TEXT NOT NULL,
-                                generated_by TEXT,
-                                FOREIGN KEY (generated_by) REFERENCES Members(username)
-                            ) ''')           
-            cursor.execute('''CREATE TABLE IF NOT EXISTS Fundraising (
-                                    fundraising_id INTEGER PRIMARY KEY,
-                                    fundraiser_name UNIQUE NOT NULL,
-                                    start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                    end_date TIMESTAMP,
-                                    goal_amount REAL,
-                                    current_amount REAL DEFAULT 0,
-                                    status TEXT,
-                                    description TEXT
-                            ) ''')
-            cursor.execute('''CREATE TABLE IF NOT EXISTS TRaining (
-                                    training_id INTEGER PRIMARY KEY,
-                                    training_name UNIQUE NOT NULL,
-                                    start_date TIMESTAMP DEFAULT CURRENT TIMESTAMP,
-                                    end_date TIMESTAMP,
-                                    venue TEXT,
-                                    description TEXT
-                            ) ''')
+            
+            
+            
             cursor.execute('''CREATE TABLE IF NOT EXISTS Transactions (
                                 transaction_id INTEGER PRIMARY KEY,
                                 transaction_date DATE NOT NULL,

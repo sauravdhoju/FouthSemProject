@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
+# from modules.CRUD_Admin_Exec_Club_Expense_UI import receipt_management_ui, financial_reporting_ui, expense_categories_ui, fundraising_ui, training_and_education_ui
 def main():
     col1_Club_Expenses_Panel, col2_Club_Expenses_Dashboard = st.columns([1,5])
     with  col1_Club_Expenses_Panel:
@@ -24,20 +25,6 @@ def main():
                 "nav-link-selected": {"background-color": "grey"},
             },
         )
-        if selected_option == "Expense Tracking":
-            pass
-        if selected_option == "Receipt Management":
-            pass
-        if selected_option == "Financial Reporting":
-            pass
-        if selected_option == "Expense Categories":
-            pass
-        if selected_option == "Fundraising Activities":
-            pass
-        if selected_option == "Training and Education":
-            pass
-        if selected_option == "Return":
-            st.switch_page("pages/Admin_Admin_Panel.py")
     with col2_Club_Expenses_Dashboard:
         st.markdown(
             """
@@ -48,8 +35,24 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        with st.container():
+        if selected_option == "Expense Tracking":
             pass
+        if selected_option == "Receipt Management":
+            st.switch_page('pages/Admin_Receipt_Management.py')
+        if selected_option == "Financial Reporting":
+            pass
+            # financial_reporting_ui()
+        if selected_option == "Expense Categories":
+            pass
+            # expense_categories_ui()
+        if selected_option == "Fundraising Activities":
+            pass
+            # fundraising_ui()
+        if selected_option == "Training and Education":
+            pass
+            # training_and_education_ui()
+        if selected_option == "Return":
+            st.switch_page("pages/Admin_Admin_Panel.py")
     
 if __name__ == "__main__":
     if 'username' in st.session_state:

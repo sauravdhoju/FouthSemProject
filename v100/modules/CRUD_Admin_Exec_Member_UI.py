@@ -1,8 +1,7 @@
-# app.py
-
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
-from modules.database import create_connection, add_executive_member, search_executive_members, get_all_executive_members, delete_member, update_member_details
+from modules.Create_Connection import create_connection
+from modules.Database_Member_Management import add_executive_member, search_executive_members, get_all_executive_members, delete_member, update_member_details
 import datetime
 conn = create_connection()
 
@@ -34,6 +33,7 @@ def add_executive_members_ui(conn):
 
     with col3:
         pass
+    
 def display_executive_members_ui(conn):
     with st.form(key="search_form"):
         username = st.text_input("Search by name or email")
@@ -57,7 +57,6 @@ def display_executive_members_ui(conn):
                 display_member_table(executive_members)
             else:
                 st.write("No executive members found.")
-
 
 def display_member_table(members):
     member_data = []
@@ -122,8 +121,6 @@ def update_executive_members_ui(conn):
         else:
             st.write("No matching executive members found.")
 
-
-                
 def delete_executive_members_ui(conn):
     email = None
     with st.form(key="search_form"):

@@ -2,34 +2,11 @@
 import sqlite3
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
-from modules.Database_Create_Table import create_tables
+# from modules.Database_Create_Table import create_tables
 
 # Function to create a SQLite connection
-def create_connection():
-    try:
-        conn = sqlite3.connect('accounting.db')
-        return conn
-    except sqlite3.Error as e:
-        print(f"SQLite error: {e}")
-    return None
 
-#DEFAULT USER
-def insert_default_user(conn):
-    default_pass_hash = pbkdf2_sha256.hash('admin')
-    default_pass_hash_user = pbkdf2_sha256.hash('user')
-    try:
-        cursor = conn.cursor()
-        cursor.execute('''SELECT COUNT(*) FROM Members WHERE username = 'admin' AND email = 'admin@example.com' ''')
-        count = cursor.fetchone()[0]
-        if count == 0:
-            cursor.execute('''INSERT INTO Members (username, hashed_password, full_name, email, phone, position, account_balance, access_level, role_id)
-                              VALUES ('admin', ?, 'Admin User', 'admin@example.com', 1234567890, 'Administrator', 0, 'superuser',1)''', (default_pass_hash,))
-            cursor.execute('''INSERT INTO Members (username, hashed_password, full_name, email, phone, position, account_balance, access_level, role_id)
-                              VALUES ('user', ?, 'Admin User', 'admin@exmple.com', 1234567890, 'Administrator', 0, 'executiveuser',2)''', (default_pass_hash_user,))
-            conn.commit()
-            print("Super user inserted successfully.")
-    except sqlite3.Error as e:
-        print(f"SQLite error: {e}")
+
 
 
 

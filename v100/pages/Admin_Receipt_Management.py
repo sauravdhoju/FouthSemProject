@@ -1,8 +1,9 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.CRUD_Admin_Exec_Member_UI import add_executive_members_ui, display_executive_members_ui, delete_executive_members_ui, update_executive_members_ui
-from modules.database import create_connection
+from modules.CRUD_Admin_Exec_Club_Expense_UI import add_receipt
+from modules.Create_Connection import create_connection
+
 conn = create_connection()
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
@@ -10,8 +11,8 @@ def main():
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  
-            options=["View Executive Member", "Return"],
-            icons=["eye","arrow-return-left"],
+            options=["Add Receipt", "View Receipt", "Update Receipt","Remove Receipt", "Return"],
+            icons=["plus-circle", "eye", "cloud-upload", "person-x-fill","arrow-return-left"],
             orientation="vertical",
             styles={
                 "container": {"padding": "0!important", "background-color": "#fafafa"},
@@ -35,10 +36,16 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        if selected_option == 'View Executive Member':
-            display_executive_members_ui(conn)
+        if  selected_option == 'Add Receipt':
+            add_receipt()
+        elif selected_option == 'View Receipt':
+            pass
+        elif selected_option == 'Update Receipt':
+            pass
+        elif selected_option == 'Remove Receipt':
+            pass
         elif selected_option == 'Return':
-            st.switch_page('pages/0301_Executive_Panel.py')
+            st.switch_page('pages/Admin_Club_Expenses.py')
         
 if __name__ == "__main__":
     if 'username' in st.session_state:
