@@ -89,15 +89,21 @@ def get_all_executive_members():
     cursor.execute('''SELECT * FROM Members WHERE position IN (?, ?, ?, ?)''', ('President', 'Vice President', 'Secretary', 'IT Coordinator'))
     return cursor.fetchall()
 
-def update_member_details( username_or_email, new_details):
+def update_member_details(username_or_email, new_details):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute('''UPDATE Members SET username = ?, hashed_password = ?, full_name = ?, email = ?, phone = ?, account_balance = ?
-    WHERE username = ? OR email = ?''', (new_details['username'], new_details['hashed_password'], new_details['full_name'],
-                                            new_details['email'], new_details['phone'], new_details['account_balance'],
-                                            username_or_email, username_or_email))
+    cursor.execute('''UPDATE Members SET username = ?, hashed_password = ?, full_name = ?, email = ?, phone = ?, account_balance = ?,
+                      active_status = ?, position = ?, performance_metrics = ?, access_level = ?, role_id = ?
+                      WHERE username = ? OR email = ?''', 
+                    (new_details['username'], new_details['hashed_password'], new_details['full_name'],
+                        new_details['email'], new_details['phone'], new_details['account_balance'],
+                        new_details['active_status'], new_details['position'], new_details['performance_metrics'],
+                        new_details['access_level'], new_details['role_id'],
+                        username_or_email, username_or_email))
     conn.commit()
+    conn.close()  # Close the connection after usage
     return True
+
 
 def delete_member( del_username, del_email):
     conn = create_connection()

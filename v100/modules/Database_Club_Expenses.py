@@ -67,9 +67,7 @@ def insert_expense_category(category_name, description=None, created_by=None):
                       WHERE NOT EXISTS (SELECT 1 FROM Expense_Categories WHERE category_name = ?)''', 
                    (category_name, description, created_by, category_name))
     conn.commit()
-    print('Category added successfully')
     return True
-
 
 def search_category(category_name):
     conn = create_connection()
@@ -112,8 +110,6 @@ def update_category(old_category_name, new_category_name, new_description=None, 
     print("Expense Category has been updated")
     return True
     
-
-        
 def delete_category(category_name): 
     conn = create_connection()
     cursor = conn.cursor()
