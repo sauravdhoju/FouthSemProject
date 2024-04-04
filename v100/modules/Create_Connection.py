@@ -1,4 +1,5 @@
 import sqlite3
+
 def create_connection():
     try:
         conn = sqlite3.connect('accounting.db')

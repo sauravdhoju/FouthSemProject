@@ -1,5 +1,3 @@
-
-import sqlite3
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
 from modules.Create_Connection import create_connection
@@ -27,8 +25,6 @@ def create_member_table():
     insert_default_user()   
     conn.commit()
     print("Member table created successfully.")
-
-
 #DEFAULT USER
 def insert_default_user():
     conn = create_connection()
@@ -44,25 +40,20 @@ def insert_default_user():
                             VALUES ('user', ?, 'Admin User', 'admin@exmple.com', 1234567890, 'Administrator', 0, 'executiveuser',2)''', (default_pass_hash_user,))
         conn.commit()
         print("Super user inserted successfully.")
-        
-#MEMBER MANAGEMENT FUNCTIONS
+
 def add_executive_member( exec_username, hashed_password ,exec_name, exec_email, exec_phone, exec_position, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level, exec_role_id):
     conn = create_connection()
     cursor = conn.cursor()
     existing_username = get_member_by_username( exec_username)
     existing_email = get_member_by_email( exec_email)
-    # print( exec_username,existing_username, existing_email)
-    
     if existing_username is not None:
         st.error("Username already occupied.")
         print("Username already exists. Please choose a different username.")
         return False
-    
     if existing_email is not None:
         st.error("Email already occupied.")                
         print("Email already exists. Please choose a different email.")
         return False
-    
     cursor.execute('''INSERT INTO Members (username, hashed_password, full_name, email, phone, position, account_balance, joined_date, performance_metrics, active_status, access_level, role_id)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''', 
                         ( exec_username, hashed_password ,exec_name, exec_email, exec_phone, exec_position, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level, exec_role_id))
@@ -78,7 +69,6 @@ def get_member_by_username( username):
     cursor.execute('''SELECT * FROM Members WHERE username = ?''', (username,))
     return cursor.fetchone()
         
-
 def get_member_by_email( email):
     conn = create_connection()
     cursor = conn.cursor()

@@ -63,10 +63,13 @@ def insert_expense_category(category_name, description=None, created_by=None):
     conn = create_connection()
     cursor = conn.cursor()
     cursor.execute('''INSERT INTO Expense_Categories (category_name, description, created_by) 
-                        VALUES (?, ?, ?)''', (category_name, description, created_by))
+                      SELECT ?, ?, ?
+                      WHERE NOT EXISTS (SELECT 1 FROM Expense_Categories WHERE category_name = ?)''', 
+                   (category_name, description, created_by, category_name))
     conn.commit()
     print('Category added successfully')
     return True
+
 
 def search_category(category_name):
     conn = create_connection()
