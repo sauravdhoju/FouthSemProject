@@ -3,9 +3,8 @@ from passlib.hash import pbkdf2_sha256
 from modules.Create_Connection import create_connection
 from modules.Database_Member_Management import add_executive_member, search_executive_members, get_all_executive_members, delete_member, update_member_details
 import datetime
-conn = create_connection()
-
-def add_executive_members_ui(conn):
+def add_executive_members_ui():
+    conn = create_connection()
     col1, col2, col3 = st.columns([1, 5, 1])
     with col1:
         pass
@@ -29,18 +28,19 @@ def add_executive_members_ui(conn):
             # If the form is submitted
             if st.form_submit_button("Add Executive Member"):
                 hashed_password = pbkdf2_sha256.hash(exec_password)
-                add_executive_member(conn, exec_name, exec_position, exec_email, exec_phone, exec_username, hashed_password, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level, exec_role_id)
+                add_executive_member( exec_username, hashed_password ,exec_name, exec_email, exec_phone, exec_position, exec_balance, exec_joined_date, exec_performance_metrics, exec_active_status, access_level, exec_role_id)
 
     with col3:
         pass
     
-def display_executive_members_ui(conn):
+def display_executive_members_ui():
+    conn = create_connection()
     with st.form(key="search_form"):
         username = st.text_input("Search by name or email")
         search_button = st.form_submit_button("Search")
 
     if search_button:
-        search_results = search_executive_members(conn, username)
+        search_results = search_executive_members( username)
         if search_results:
             st.write("Search Results:")
             display_member_table(search_results)
@@ -51,7 +51,7 @@ def display_executive_members_ui(conn):
             all_members_button = st.form_submit_button("Show All Executive Members")
         
         if all_members_button:
-            executive_members = get_all_executive_members(conn)
+            executive_members = get_all_executive_members()
             if executive_members:
                 st.write("All Executive Members:")
                 display_member_table(executive_members)
@@ -77,7 +77,8 @@ def display_member_table(members):
         member_data.append(member_info)
     st.table(member_data)
 
-def update_executive_members_ui(conn):
+def update_executive_members_ui():
+    conn = create_connection()
     with st.form(key="update_form"):
         username_or_email = st.text_input("Search by username or email")
         col1, col2, col3 = st.columns([5, 2, 1])
@@ -85,7 +86,7 @@ def update_executive_members_ui(conn):
             search_button = st.form_submit_button("Search")
         
     if search_button:
-        search_results = search_executive_members(conn, username_or_email)
+        search_results = search_executive_members( username_or_email)
         if search_results:
             st.write("Search Results:")
             display_member_table(search_results)
@@ -112,7 +113,7 @@ def update_executive_members_ui(conn):
                             'phone': new_phone,
                             'account_balance': new_account_balance
                         }
-                        if update_member_details(conn, username_or_email, new_details):
+                        if update_member_details( username_or_email, new_details):
                             print('updated')
                             st.success("Updated Successfully")
                         else:
@@ -121,7 +122,8 @@ def update_executive_members_ui(conn):
         else:
             st.write("No matching executive members found.")
 
-def delete_executive_members_ui(conn):
+def delete_executive_members_ui():
+    conn = create_connection()
     email = None
     with st.form(key="search_form"):
         username = st.text_input("Search by username or email")
@@ -132,7 +134,7 @@ def delete_executive_members_ui(conn):
             delete_button = st.form_submit_button("Delete")
 
     if search_button:
-        search_results = search_executive_members(conn, username)
+        search_results = search_executive_members( username)
         if search_results:
             st.write("Search Results:")
             display_member_table(search_results)
@@ -146,7 +148,7 @@ def delete_executive_members_ui(conn):
         if username.strip() == "":
             st.error('Please enter valid username or email')
         else:
-            delete = delete_member(conn,username, email)
+            delete = delete_member(username, email)
             if delete:
                 st.success("Deleted Successfully")
             else:

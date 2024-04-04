@@ -1,8 +1,6 @@
 import streamlit as st
 from modules.Database_Club_Expenses import insert_expense_category, search_category, get_all_categories, update_category
 from modules.Create_Connection import create_connection
-
-conn = create_connection()
 def receipt_management_ui():
     st.header(f"Receipt Management")
 
@@ -31,19 +29,21 @@ def display_category_table(categories):
         category_data.append(category_info)
     st.table(category_data)     
     
-def add_expense_category_ui(conn):
+def add_expense_category_ui():
+    conn = create_connection()
     st.header("Add Expense Category")
     col1,col2,col3 = st.columns([4,4,4])
     with col2:
         category_name = st.text_input('Category name')
         category_description = st.text_area('Description')
         logged_in_user = st.session_state['username']
+        print(logged_in_user)
 
         if st.button("Add Category"):
             if category_name.strip() == "":
                 st.error("Please enter a category name.")
             else:
-                if insert_expense_category(conn, category_name, category_description, logged_in_user):
+                if insert_expense_category( category_name, category_description, logged_in_user):
                     st.success("Expense category added successfully.")
                 else:
                     st.error("Failed to add expense category")
@@ -55,7 +55,7 @@ def view_expense_category_ui():
             view_category = st.text_input('View Category')
             search_button = st.form_submit_button('View Category')
         if search_button:
-            search_results = search_category(conn, view_category)
+            search_results = search_category( view_category)
             if search_results:
                 st.write("Search Results:")
                 display_category_table(search_results)
@@ -67,7 +67,7 @@ def view_expense_category_ui():
                 all_categories_button = st.form_submit_button("Show All Categories")
             
             if all_categories_button:
-                all_categories = get_all_categories(conn)
+                all_categories = get_all_categories()
                 if all_categories:
                     st.write('All Categories: ')
                     display_category_table(all_categories)
@@ -78,40 +78,44 @@ def update_expense_category_ui():
     st.header("Update Expense Category")
     col1, col2, col3 = st.columns([4,4,4])
     with col2:
-        with st.form(key="expense_search_form"):
+        # with st.form(key="expense_search_form"):
             category_name = st.text_input("Category Name")
-            search_button = st.form_submit_button('Search')
-        if search_button:
-            search_results = search_category(conn, category_name)
-            if search_results:
-                st.write('Search Results')
-                display_category_table(search_results)
-                
-                with st.form(key="expense_update_form"):
+        #     search_button = st.form_submit_button('Search')
+            with st.form(key="expense_update_form"):
                     new_category = st.text_input("New Category")
                     new_description = st.text_area("Description")
                     logged_in_user = st.session_state['username']
                     update_button = st.form_submit_button('Update')
                     print('Update Button:', update_button)
                     if update_button:
-                        print('Hey Rabisha')
-                        if category_name.strip() == "":
-                            st.error("Enter valid category name")
-                            print("Type correct category name you bullshit")
-                        else:
-                            new_category = {
-                                'category_name':  new_category,
-                                'description': new_description,
-                                'last_updated_by': logged_in_user
-                            }
-                            if update_category(conn, category_name, new_category, new_description, logged_in_user):
-                                st.success('Updated Successfully')
-                            else:
-                                st.error('Failed to Update.')
+                        update_category(category_name, new_category, new_description, logged_in_user)
+                        st.success('Updated Successfully')
                     else:
-                        st.error('Not updated')
-            else:
-                st.write('Category not found.')
+                        st.error('Failed to Update.')
+        #                 print('Hey Rabisha')
+        #             if category_name.strip() == "":
+        #                 st.error("Enter valid category name")
+        #                 print("Type correct category name you bullshit")
+        #             else:
+        #                 new_category = {
+        #                     'category_name':  new_category,
+        #                     'description': new_description,
+        #                     'last_updated_by': logged_in_user
+        #                 }
+        #                 if 
+                            
+        #             else:
+        #                 st.error('Not updated')
+        # if search_button:
+        #     search_results = search_category( category_name)   
+        #     if search_results:
+        #         st.write('Search Results')
+        #         display_category_table(search_results)
+                
+        #         update_button = True
+                
+        #     else:
+        #         st.write('Category not found.')
 
             
                 

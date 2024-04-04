@@ -36,7 +36,7 @@ def main():
             unsafe_allow_html=True
         )
         if selected_option == 'View Executive Member':
-            display_executive_members_ui(conn)
+            display_executive_members_ui()
         elif selected_option == 'Return':
             st.switch_page('pages/0301_Executive_Panel.py')
         

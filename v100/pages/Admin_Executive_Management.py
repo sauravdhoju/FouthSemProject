@@ -37,13 +37,13 @@ def main():
             unsafe_allow_html=True
         )
         if  selected_option == 'Add Executive Member':
-            add_executive_members_ui(conn)
+            add_executive_members_ui()
         elif selected_option == 'View Executive Member':
-            display_executive_members_ui(conn)
+            display_executive_members_ui()
         elif selected_option == 'Update Executive Member':
-            update_executive_members_ui(conn)
+            update_executive_members_ui()
         elif selected_option == 'Remove Executive Member':
-            delete_executive_members_ui(conn)
+            delete_executive_members_ui()
         elif selected_option == 'Return':
             st.switch_page('pages/Admin_Admin_Panel.py')
         

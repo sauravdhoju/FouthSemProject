@@ -37,7 +37,7 @@ def main():
             unsafe_allow_html=True
         )
         if  selected_option == 'Add Categories':
-            add_expense_category_ui(conn)
+            add_expense_category_ui()
         elif selected_option == 'View Categories':
             view_expense_category_ui()
         elif selected_option == 'Update Categories':

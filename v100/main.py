@@ -6,10 +6,8 @@ from modules.Database_Club_Expenses import create_club_expense_table
 
 st.session_state['is_logged_in'] = False
 def main():
-    conn = create_connection()
-    cursor = conn.cursor()
-    create_member_table(conn)
-    create_club_expense_table(conn)
+    create_member_table()
+    create_club_expense_table()
     
     
     if st.session_state['is_logged_in']:
