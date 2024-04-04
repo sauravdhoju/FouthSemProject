@@ -9,7 +9,12 @@ def create_club_expense_table(conn):
 #Expense Categories
             cursor.execute('''CREATE TABLE IF NOT EXISTS Expense_Categories (
                                 category_id INTEGER PRIMARY KEY,
-                                category_name UNIQUE NOT NULL
+                                category_name TEXT UNIQUE NOT NULL,
+                                description TEXT,
+                                created_by TEXT,
+                                creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                last_updated_by TEXT,
+                                last_updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                             ) ''')
 #Receipts
             cursor.execute('''CREATE TABLE IF NOT EXISTS Receipts (
@@ -25,7 +30,7 @@ def create_club_expense_table(conn):
 #Financial_Receipts
             cursor.execute('''CREATE TABLE IF NOT EXISTS Financial_Reports (
                                 report_id INTEGER PRIMARY KEY,
-                                report_date TIMESTAMP DEFALUT CURRENT_TIMESTAMP,
+                                report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 description TEXT,
                                 report_type TEXT NOT NULL,
                                 generated_by TEXT,
@@ -46,7 +51,7 @@ def create_club_expense_table(conn):
             cursor.execute('''CREATE TABLE IF NOT EXISTS Training (
                                 training_id INTEGER PRIMARY KEY,
                                 training_name UNIQUE NOT NULL,
-                                start_date TIMESTAMP DEFAULT CURRENT TIMESTAMP,
+                                start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                 end_date TIMESTAMP,
                                 venue TEXT,
                                 description TEXT
@@ -59,20 +64,35 @@ def create_club_expense_table(conn):
         print("Error: Connection to SQLite database is not established.")
 
 #EXPENSE CATEGORY
-def insert_expense_category(conn, category_name):
+def insert_expense_category(conn, category_name, description=None, created_by=None):
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute('''INSERT INTO Expense_categories (category_name) VALUES (?)''', (category_name))
+            cursor.execute('''INSERT INTO Expense_Categories (category_name, description, created_by) 
+                              VALUES (?, ?, ?)''', (category_name, description, created_by))
             conn.commit()
             print('Category added successfully')
             return True
         except sqlite3.Error as e:
-            print('SQLite Error: {e}')
+            print(f'SQLite Error: {e}')
             return False
     else:
-        print("Error: Connection to SQLite database is not established.")   
-        
+        print("Error: Connection to SQLite database is not established.")
+        return False
+
+def search_category(conn, category_name):
+    if conn is not None:
+        try:
+            cursor = conn.cursor()
+            cursor.execute('''SELECT * FROM Expense_Categories WHERE category_name LIKE ?''', ('%' + category_name + '%',))
+            rows = cursor.fetchall()
+            return rows
+        except sqlite3.Error as e:
+            print(f'SQLite error: {e}')
+    else:
+        print("Error: Connection to SQLite database is not established")
+        return None
+
 def get_all_categories(conn):
     if conn is not None:
         try:
@@ -86,25 +106,46 @@ def get_all_categories(conn):
     else:
         print("Error: Connection to SQLite database is not established.")
 
-def update_category(conn, category_id, category_name):
+def update_category(conn, old_category_name, new_category_name, new_description=None, new_last_updated_by=None):
     if conn is not None:
         try:
             cursor = conn.cursor()
-            cursor.execute('''UPDATE Expense_Categories SET category_name = ? WHERE category_id = ?''',
-                            (category_name, category_id))
+            if new_description is not None and new_last_updated_by is not None:
+                cursor.execute('''UPDATE Expense_Categories 
+                                  SET category_name = ?, description = ?, last_updated_by = ?
+                                  WHERE category_name = ?''',
+                               (new_category_name, new_description, new_last_updated_by, old_category_name))
+            elif new_description is not None:
+                cursor.execute('''UPDATE Expense_Categories 
+                                  SET category_name = ?, description = ?
+                                  WHERE category_name = ?''',
+                               (new_category_name, new_description, old_category_name))
+            elif new_last_updated_by is not None:
+                cursor.execute('''UPDATE Expense_Categories 
+                                  SET category_name = ?, last_updated_by = ?
+                                  WHERE category_name = ?''',
+                               (new_category_name, new_last_updated_by, old_category_name))
+            else:
+                cursor.execute('''UPDATE Expense_Categories 
+                                  SET category_name = ?
+                                  WHERE category_name = ?''',
+                               (new_category_name, old_category_name))
             conn.commit()
             print("Expense Category has been updated")
             return True
         except sqlite3.Error as e:
             print(f'SQLite Error: {e}')
+            return False
     else:
         print("Error: Could not connect to the database.")
+        return False
+
         
-def delete_category(conn, category_id):
+def delete_category(conn, category_name):
     if conn is not None:
         try: 
             cursor = conn.cursor()
-            cursor.execute('''DELETE FROM Expense_Categories WHERE category_id = ?''', (category_id,) )
+            cursor.execute('''DELETE FROM Expense_Categories WHERE category_name = ?''', (category_name,) )
             conn.commit()
             print("Category has been deleted.")
         except sqlite3.Error as e:
