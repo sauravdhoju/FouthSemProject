@@ -1,7 +1,7 @@
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
 from modules.Create_Connection import create_connection
-from modules.Database_Member_Management import add_executive_member, search_executive_members, get_all_executive_members, delete_member, update_member_details
+from modules.Database_Exec_Member_Management import add_executive_member, search_executive_members, get_all_executive_members, delete_member, update_member_details
 
 def add_executive_members_ui():
     conn = create_connection()

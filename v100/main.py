@@ -1,6 +1,6 @@
 import streamlit as st
 from modules.Create_Connection import create_connection
-from modules.Database_Member_Management import create_member_table
+from modules.Database_Exec_Member_Management import create_member_table
 from modules.Database_Club_Expenses import create_club_expense_table
 # from modules.database import create_connection, create_tables
 

@@ -8,7 +8,7 @@ def main():
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  # Title of the menu
-            options=["Expense Tracking", "Receipt Management", "Financial Reporting", "Expense Categories", "Fundraising Activities", "Training and Education", "Return"], 
+            options=["Expense Tracking", "Receipt Management", "Financial Reporting", "Expense Categories", "Membership Management", "Training and Education", "Return"], 
             icons=["bar-chart-fill", "receipt", "box-fill", "tag-fill", "wallet2", "journal-arrow-up", "arrow-return-left"], 
             menu_icon="th-large",  
             default_index=0, 
@@ -45,7 +45,8 @@ def main():
         if selected_option == "Expense Categories":
             st.switch_page('pages/Admin_Expense_Category.py')
             # expense_categories_ui()
-        if selected_option == "Fundraising Activities":
+        if selected_option == "Membership Management":
+            st.switch_page('pages/Admin_Membership_Management.py')
             pass
             # fundraising_ui()
         if selected_option == "Training and Education":

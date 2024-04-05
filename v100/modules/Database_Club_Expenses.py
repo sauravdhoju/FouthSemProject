@@ -35,16 +35,16 @@ def create_club_expense_table():
                         generated_by TEXT,
                         FOREIGN KEY (generated_by) REFERENCES Members(username)
                     ) ''')   
-#FundRaising        
-    cursor.execute('''CREATE TABLE IF NOT EXISTS Fundraising (
-                        fundraising_id INTEGER PRIMARY KEY,
-                        fundraiser_name UNIQUE NOT NULL,
-                        start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                        end_date TIMESTAMP,
-                        goal_amount REAL,
-                        current_amount REAL DEFAULT 0,
-                        status TEXT,
-                        description TEXT
+#Payment        
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Payments (
+                        payment_id INTEGER PRIMARY KEY,
+                        username TEXT,
+                        payment_amount REAL,
+                        payment_date DATE,
+                        payment_method TEXT,
+                        category_id INTEGER,
+                        FOREIGN KEY (username) REFERENCES Members(username),
+                        FOREIGN KEY (category_id) REFERENCES Expense_Categories(category_id)
                     ) ''')
 #Training
     cursor.execute('''CREATE TABLE IF NOT EXISTS Training (
