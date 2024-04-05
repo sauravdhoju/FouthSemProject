@@ -1,6 +1,6 @@
 import streamlit as st
 from modules.Club_Expenses.Database_Club_Expenses import insert_expense_category, update_category, delete_category, fetch, fetch_all
-from modules.Create_Connection.Create_Connection import create_connection
+from modules.Create_Connection.Create_Connection import create_connection, fetch_if
 def receipt_management_ui():
     st.header(f"Receipt Management")
 
@@ -102,7 +102,7 @@ def update_expense_category_ui():
                     else:
                         update_category(category_name, new_category, new_description, logged_in_user)
                         st.success('Updated Successfully')
-                        st.experimental_rerun()
+                        st.rerun()
                 else:
                     st.error("Category not found. Please enter a valid category name.")
 
@@ -118,10 +118,10 @@ def remove_expense_category_ui():
             delete_button = st.form_submit_button("Delete")
 
     if search_button:
-        search_results = search_category(category_name)
+        search_results = fetch_if('Expense_Categories', {'category_name': category_name})
         if search_results:
             st.write("Search Results:")
-            display_category_table(search_results)
+            st.table(search_results)
         else:
             st.write("No matching category found.")
     

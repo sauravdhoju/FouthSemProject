@@ -1,10 +1,9 @@
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
-from modules.Create_Connection.Create_Connection import create_connection
+from modules.Create_Connection.Create_Connection import create_connection, fetch_if
 from modules.Executive_Member.Database_Exec_Member_Management import add_executive_member, search_executive_members, get_all_executive_members, delete_member, update_member_details
 
 def add_executive_members_ui():
-    conn = create_connection()
     st.subheader("Add Executive Members")
     with st.form(key="add_executive_form"):
         col1, col2, col3 = st.columns([5, 5, 5])

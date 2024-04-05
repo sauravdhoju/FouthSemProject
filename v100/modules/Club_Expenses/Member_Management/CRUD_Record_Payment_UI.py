@@ -1,6 +1,6 @@
 import streamlit as st
 from modules.Club_Expenses.Database_Club_Expenses import create_payment, retrieve_member_information, update_payment, delete_payment
-from modules.Create_Connection.Create_Connection import create_connection
+from modules.Create_Connection.Create_Connection import create_connection, fetch_if
 def fetch_categories():
     conn = create_connection()
     cursor = conn.cursor()
@@ -44,13 +44,16 @@ def retrieve_member_information_ui():
     st.header("Retrieve Member Information")
     username = st.text_input("Username")
     if st.button("Retrieve Information"):
-        member_info = retrieve_member_information(username)
+        # member_info = retrieve_member_information(username)
+        member_info = fetch_if('Payments', {'username': username})
+        print("DEBUG:", member_info)  # Add this line for debugging
         if member_info:
             st.write("Member Information:")
-            display_member_payment_table(username)
-            # st.write(member_info)
+            # display_member_payment_table(username)
+            st.table(member_info)
         else:
             st.error("Member not found.")
+
 
 # Function to update a payment
 def update_payment_ui():

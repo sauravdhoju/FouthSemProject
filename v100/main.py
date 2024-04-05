@@ -5,6 +5,9 @@ from modules.Club_Expenses.Database_Club_Expenses import create_club_expense_tab
 # from modules.database import create_connection, create_tables
 
 st.session_state['is_logged_in'] = False
+
+
+
 def main():
     create_member_table()
     create_club_expense_table()
@@ -16,5 +19,8 @@ def main():
         st.switch_page("pages/Login_Page.py")
         
 if __name__ == "__main__":
-    print(fetch('Expense_Categories', 'category_name', 'Fee'))
+    # a= verify('Member', {'username': 'user', 'email': 'admin@example.com'})
+    # a= fetch_if('Members')
+    # print(a)
+    # print(fetch('Expense_Categories', 'category_name', 'Fee'))
     main()

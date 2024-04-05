@@ -38,7 +38,7 @@ def create_club_expense_table():
 #Payment        
     cursor.execute('''CREATE TABLE IF NOT EXISTS Payments (
                         payment_id INTEGER PRIMARY KEY,
-                        username TEXT,
+                        username TEXT NOT NULL,
                         payment_amount REAL,
                         payment_date DATE,
                         payment_method TEXT,
@@ -68,6 +68,7 @@ def insert_expense_category(category_name, description=None, created_by=None):
                    (category_name, description, created_by, category_name))
     conn.commit()
     return True
+
 
 def fetch(table_name, key, string):
     conn = create_connection()
