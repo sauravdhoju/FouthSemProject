@@ -1,6 +1,6 @@
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
-from modules.Create_Connection import create_connection
+from modules.Create_Connection.Create_Connection import create_connection
 
 def create_member_table():
     conn = create_connection()

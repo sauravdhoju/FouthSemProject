@@ -1,6 +1,6 @@
 import streamlit as st
 import sqlite3
-from modules.Create_Connection import create_connection 
+from modules.Create_Connection.Create_Connection import create_connection 
 
 def create_club_expense_table():
     conn = create_connection()

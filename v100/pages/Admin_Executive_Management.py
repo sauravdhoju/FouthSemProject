@@ -1,8 +1,8 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.CRUD_Admin_Exec_Member_UI import add_executive_members_ui, display_executive_members_ui, delete_executive_members_ui, update_executive_members_ui
-from modules.Create_Connection import create_connection
+from modules.Executive_Member.CRUD_Admin_Exec_Member_UI import add_executive_members_ui, display_executive_members_ui, delete_executive_members_ui, update_executive_members_ui
+from modules.Create_Connection.Create_Connection import create_connection
 
 conn = create_connection()
 def main():

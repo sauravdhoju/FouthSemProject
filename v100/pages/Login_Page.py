@@ -1,5 +1,5 @@
 import streamlit as st
-from modules.Login_Authenticate import authenticate_user
+from modules.Authenticator.Login_Authenticate import authenticate_user
 
 st.set_page_config( layout="wide", initial_sidebar_state = "collapsed")
 st.session_state['is_logged_in'] = False

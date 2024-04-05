@@ -1,7 +1,7 @@
 import streamlit as st
-from modules.Create_Connection import create_connection
-from modules.Database_Exec_Member_Management import create_member_table
-from modules.Database_Club_Expenses import create_club_expense_table
+from modules.Create_Connection.Create_Connection import create_connection
+from modules.Executive_Member.Database_Exec_Member_Management import create_member_table
+from modules.Club_Expenses.Database_Club_Expenses import create_club_expense_table
 # from modules.database import create_connection, create_tables
 
 st.session_state['is_logged_in'] = False

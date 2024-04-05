@@ -1,6 +1,6 @@
 import streamlit as st
-from modules.Database_Club_Expenses import insert_expense_category, search_category, get_all_categories, update_category, delete_category
-from modules.Create_Connection import create_connection
+from modules.Club_Expenses.Database_Club_Expenses import insert_expense_category, search_category, get_all_categories, update_category, delete_category
+from modules.Create_Connection.Create_Connection import create_connection
 def receipt_management_ui():
     st.header(f"Receipt Management")
 
