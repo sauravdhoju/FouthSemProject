@@ -12,7 +12,7 @@ def create_member_table():
                         hashed_password TEXT NOT NULL,
                         full_name TEXT NOT NULL,
                         email TEXT UNIQUE,
-                        phone INTEGER,
+                        phone INTEGER UNIQUE,
                         position TEXT NOT NULL,
                         account_balance REAL DEFAULT 0 CHECK (account_balance >= 0),
                         joined_date DATE,

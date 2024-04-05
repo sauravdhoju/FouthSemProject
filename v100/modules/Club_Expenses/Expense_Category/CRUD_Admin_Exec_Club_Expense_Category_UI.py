@@ -1,5 +1,5 @@
 import streamlit as st
-from modules.Club_Expenses.Database_Club_Expenses import insert_expense_category, search_category, get_all_categories, update_category, delete_category
+from modules.Club_Expenses.Database_Club_Expenses import insert_expense_category, update_category, delete_category, fetch, fetch_all
 from modules.Create_Connection.Create_Connection import create_connection
 def receipt_management_ui():
     st.header(f"Receipt Management")
@@ -55,7 +55,7 @@ def view_expense_category_ui():
             view_category = st.text_input('Category Name')
             search_button = st.form_submit_button('View Category')
     if search_button:
-        search_results = search_category( view_category)
+        search_results = fetch('Expense_Categories', 'category_name', view_category )
         if search_results:
             st.write("Search Results:")
             display_category_table(search_results)
@@ -67,7 +67,7 @@ def view_expense_category_ui():
             with col2:
                 all_categories_button = st.form_submit_button("Show All Categories")
         if all_categories_button:
-            all_categories = get_all_categories()
+            all_categories = fetch_all('Expense_Categories')
             if all_categories:
                 st.write('All Categories: ')
                 display_category_table(all_categories)

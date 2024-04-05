@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.Club_Expenses.CRUD_Admin_Exec_Club_Expense_UI import add_expense_category_ui, view_expense_category_ui, update_expense_category_ui, remove_expense_category_ui
+from modules.Club_Expenses.Expense_Category.CRUD_Admin_Exec_Club_Expense_Category_UI import add_expense_category_ui, view_expense_category_ui, update_expense_category_ui, remove_expense_category_ui
 from modules.Create_Connection.Create_Connection import create_connection
 
 conn = create_connection()
@@ -37,7 +37,7 @@ def main():
             unsafe_allow_html=True
         )
         if  selected_option == 'Record Payments':
-            pass
+            st.switch_page("pages/Admin_Membership_Record_Payment.py")
         elif selected_option == 'View History':
             pass
         elif selected_option == 'Generate Reports':

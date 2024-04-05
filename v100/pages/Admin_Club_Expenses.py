@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.Club_Expenses.CRUD_Admin_Exec_Club_Expense_UI import add_expense_category_ui
+from modules.Club_Expenses.Expense_Category.CRUD_Admin_Exec_Club_Expense_Category_UI import add_expense_category_ui
 def main():
     col1_Club_Expenses_Panel, col2_Club_Expenses_Dashboard = st.columns([1,5])
     with  col1_Club_Expenses_Panel:

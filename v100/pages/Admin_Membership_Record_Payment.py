@@ -1,17 +1,15 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.Club_Expenses.Expense_Category.CRUD_Admin_Exec_Club_Expense_Category_UI import add_expense_category_ui, view_expense_category_ui, update_expense_category_ui, remove_expense_category_ui
-from modules.Create_Connection.Create_Connection import create_connection
+from modules.Club_Expenses.Member_Management.CRUD_Record_Payment_UI import create_payment_ui, retrieve_member_information_ui, update_payment_ui, delete_payment_ui
 
-conn = create_connection()
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
     with col1_exe_nav_panel:
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  
-            options=["Add Categories", "View Categories", "Update Categories","Remove Categories", "Return"],
+            options=["Add Payment", "View Payment", "Update Payment","Remove Payment", "Return"],
             icons=["plus-circle", "eye", "cloud-upload", "person-x-fill","arrow-return-left"],
             orientation="vertical",
             styles={
@@ -36,14 +34,14 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        if  selected_option == 'Add Categories':
-            add_expense_category_ui()
-        elif selected_option == 'View Categories':
-            view_expense_category_ui()
-        elif selected_option == 'Update Categories':
-            update_expense_category_ui()
-        elif selected_option == 'Remove Categories':
-            remove_expense_category_ui()
+        if  selected_option == 'Add Payment':
+            create_payment_ui()
+        elif selected_option == 'View Payment':
+            retrieve_member_information_ui()
+        elif selected_option == 'Update Payment':
+            update_payment_ui()
+        elif selected_option == 'Remove Payment':
+            delete_payment_ui()
         elif selected_option == 'Return':
             st.switch_page('pages/Admin_Club_Expenses.py')
         

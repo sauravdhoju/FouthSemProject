@@ -42,9 +42,9 @@ def create_club_expense_table():
                         payment_amount REAL,
                         payment_date DATE,
                         payment_method TEXT,
-                        category_id INTEGER,
+                        category_name TEXT UNIQUE NOT NULL,
                         FOREIGN KEY (username) REFERENCES Members(username),
-                        FOREIGN KEY (category_id) REFERENCES Expense_Categories(category_id)
+                        FOREIGN KEY (category_name) REFERENCES Expense_Categories(category_name)
                     ) ''')
 #Training
     cursor.execute('''CREATE TABLE IF NOT EXISTS Training (
@@ -56,7 +56,7 @@ def create_club_expense_table():
                         description TEXT
                     ) ''')
     conn.commit()
-    print("Receipts table created successfully.")
+    print("Club Expenses Table created successfully.")
 
 #EXPENSE CATEGORY
 def insert_expense_category(category_name, description=None, created_by=None):
@@ -69,17 +69,18 @@ def insert_expense_category(category_name, description=None, created_by=None):
     conn.commit()
     return True
 
-def search_category(category_name):
+def fetch(table_name, key, string):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute('''SELECT * FROM Expense_Categories WHERE category_name LIKE ?''', ('%' + category_name + '%',))
+    cursor.execute(f'SELECT * FROM {table_name} WHERE {key} LIKE ?', ('%' + string + '%',))
     rows = cursor.fetchall()
     return rows
 
-def get_all_categories():
+
+def fetch_all(table_name):
     conn = create_connection()
     cursor = conn.cursor()
-    cursor.execute('''SELECT * FROM  Expense_categories ''') 
+    cursor.execute(f'SELECT * FROM  {table_name} ') 
     rows = cursor.fetchall()
     return rows
 
@@ -117,6 +118,39 @@ def delete_category(category_name):
     conn.commit()
     print("Category has been deleted.")
     
+#MEMBERSHIP MANAGEMENT
+def create_payment(username, payment_amount, payment_date, payment_method, category_name):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''INSERT INTO Payments (username, payment_amount, payment_date, payment_method, category_name) 
+                        VALUES (?, ?, ?, ?, ?)''', (username, payment_amount, payment_date, payment_method, category_name))
+    conn.commit()
+    return True
+
+def retrieve_member_information(username):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''SELECT * FROM Payments WHERE username = ?''', (username,))
+    member_info = cursor.fetchone()
+    return member_info
+
+def update_payment(payment_id, payment_amount, payment_date, payment_method):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''UPDATE Payments 
+                        SET payment_amount = ?, payment_date = ?, payment_method = ?
+                        WHERE payment_id = ?''', (payment_amount, payment_date, payment_method, payment_id))
+    conn.commit()
+    return True
+
+def delete_payment(payment_id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''DELETE FROM Payments WHERE payment_id = ?''', (payment_id,))
+    conn.commit()
+    return True
+
+
 #RECEIPTS TABLE
 def insert_receipt(transaction_id, date, vendor, amount, category_id):
     conn = create_connection()
