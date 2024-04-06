@@ -34,8 +34,10 @@ class SQLiteDatabase:
                 sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
                 self.cursor.execute(sql, tuple(record_data.values()))
             print("Record inserted successfully.")
+            return True
         except sqlite3.Error as e:
             print(f"Error inserting record into '{table_name}': {e}")
+            return False
     
     
     def fetch_if(self, table_name, dict_conditions={}):
@@ -99,12 +101,12 @@ class SQLiteDatabase:
             
     def delete_record(self, table_name, conditions):
         try:
-            print(f"Attempting to delete record from {table_name}...")
-            print("Delete conditions:", conditions)
+            # print(f"Attempting to delete record from {table_name}...")
+            # print("Delete conditions:", conditions)
             with self.connection:
                 condition_str = ' AND '.join([f"{column} = ?" for column in conditions.keys()])
                 sql = f"DELETE FROM {table_name} WHERE {condition_str}"
-                print("SQL query:", sql)
+                # print("SQL query:", sql)
                 self.cursor.execute(sql, tuple(conditions.values()))
                 if self.cursor.rowcount > 0:
                     print("Record deleted successfully.")
@@ -112,6 +114,6 @@ class SQLiteDatabase:
                 else:
                     print("No matching record found.")
                     return False
-        except Error as e:
+        except sqlite3.Error as e:
             print(f"Error deleting record from '{table_name}': {e}")
             return False

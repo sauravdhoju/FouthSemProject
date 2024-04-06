@@ -1,7 +1,6 @@
 import streamlit as st
 from passlib.hash import pbkdf2_sha256
-from modules.Create_Connection.Create_Connection import create_connection, fetch_if
-from modules.Executive_Member.Database_Exec_Member_Management import add_executive_member, display_member_table, update_member_details, delete_member
+from modules.Executive_Member.Database_Exec_Member_Management import *
 from modules.database import SQLiteDatabase
 
 def add_executive_members_ui():
@@ -128,39 +127,6 @@ def update_executive_members_ui():
                         st.error("Failed to update")
                 else:
                     st.error("Executive member not found. Please enter a valid username.")
-
-# def delete_executive_members_ui():
-#     conn = create_connection()
-#     email = None
-#     with st.form(key="search_form"):
-#         username = st.text_input("Search by username or email")
-#         col1,col2, col3 = st.columns([5, 2, 1])
-#         with col2:
-#             search_button = st.form_submit_button("Search")
-#         with col3:
-#             delete_button = st.form_submit_button("Delete")
-
-#     if search_button:
-#         search_results = search_executive_members( username)
-#         if search_results:
-#             st.write("Search Results:")
-#             display_member_table(search_results)
-#             # print(type(search_results))
-#             # print(search_results)
-#             email = search_results[0][4] if search_results else None
-#         else:
-#             st.write("No matching executive members found.")
-    
-#     if delete_button:
-#         if username.strip() == "":
-#             st.error('Please enter valid username or email')
-#         else:
-#             delete = delete_member(username, email)
-#             if delete:
-#                 st.success("Deleted Successfully")
-#             else:
-#                 st.error("Failed to Delete")
-
 
 def delete_executive_members_ui():
     with st.form(key="search_form"):

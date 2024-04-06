@@ -1,9 +1,7 @@
-from passlib.hash import pbkdf2_sha256
-from modules.Create_Connection.Create_Connection import create_connection
-from modules.database import SQLiteDatabase
 import streamlit as st
 
 def create_member_table(db):
+    '''Member Table Creation with columns'''
     columns = {
         "member_id": "INTEGER PRIMARY KEY",
         "username": "TEXT UNIQUE NOT NULL",
@@ -24,16 +22,33 @@ def create_member_table(db):
     db.create_table("Members", columns)
     
 def add_executive_member(db, member_info):
+    '''Add an executive member to the database.
+
+    This function checks whether the username or email already exists in the database.
+    If the username or email already exists, it prints a message and returns False.
+    If the username or email does not exist, it adds the member to the 'Members' table in the database
+    using the provided member_info dictionary.
+    Upon successful addition, it prints a success message and returns True.
+
+    Args:
+        db (SQLiteDatabase): The SQLiteDatabase instance for interacting with the database.
+        member_info (dict): A dictionary containing information about the executive member,
+                            including 'username', 'email', and other details.
+
+    Returns:
+        bool: True if the member is successfully added, False otherwise.
+    '''
     existing_user = db.fetch_if("Members", {"username": member_info.get("username")}) or db.fetch_if("Members", {"email": member_info.get("email")})
 
     if existing_user:
         print("Username or email already exists. Please choose different ones.")
+        st.error("Try with different username or email.")
         return False
 
     db.create_record("Members", member_info)
     print("Executive member added successfully.")
+    st.success("Executive Member added successfully.")
     return True
-
 
 def display_member_table(members):
     member_data = []
@@ -53,8 +68,28 @@ def display_member_table(members):
         }
         member_data.append(member_info)
     st.table(member_data)
-  
-# #DEFAULT USER
+
+def update_member_details(db, executive_username, new_details):
+    try:
+        if db.fetch_if("Members", {"username": executive_username}):
+            db.update_record("Members", new_details, {"username": executive_username})
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(f"Error updating executive member details: {e}")
+        return False
+
+def delete_member(db, del_username):
+    try:
+        conditions = {"username": del_username}
+        result = db.delete_record("Members", conditions)
+        return result
+    except Exception as e:
+        print(f"Error deleting member: {e}")
+        return False
+
+# `#DEFAULT USER
 # def insert_default_user():
 #     # Hash default passwords
 #     default_pass_hash = pbkdf2_sha256.hash('admin')
@@ -95,38 +130,3 @@ def display_member_table(members):
 #             db.create_record("Members", record_data_user)
 
 #             print("Super user inserted successfully.")
-
-def update_member_details(db, executive_username, new_details):
-    try:
-        if db.fetch_if("Members", {"username": executive_username}):
-            db.update_record("Members", new_details, {"username": executive_username})
-            return True
-        else:
-            return False
-    except Exception as e:
-        print(f"Error updating executive member details: {e}")
-        return False
-
-
-
-# def delete_member( del_username, del_email):
-#     conn = create_connection()
-#     cursor = conn.cursor()
-#     cursor.execute('''DELETE FROM Members WHERE username = ? OR email = ?''', (del_username,del_email))
-#     conn.commit()
-#     if cursor.rowcount > 0:
-#         print("Member deleted successfully.")
-#         return True
-#     else:
-#         print("No matching member found.")
-#         return False
-
-
-def delete_member(db, del_username):
-    try:
-        conditions = {"username": del_username}
-        result = db.delete_record("Members", conditions)
-        return result
-    except Exception as e:
-        print(f"Error deleting member: {e}")
-        return False
