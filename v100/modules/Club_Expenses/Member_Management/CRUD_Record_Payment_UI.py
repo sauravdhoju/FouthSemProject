@@ -1,6 +1,5 @@
 import streamlit as st
 from modules.Club_Expenses.Database_Club_Expenses import record_payment, update_payment, delete_payment, display_payment_table
-from modules.Create_Connection.Create_Connection import create_connection, fetch_if
 from modules.database import SQLiteDatabase
 
 def create_payment_ui():
@@ -70,9 +69,8 @@ def update_payment_ui():
         else:
             st.error("Failed to update payment.")
         
-
-# Function to delete a payment
 def delete_payment_ui():
+    '''Delete Record Payments'''
     st.header("Delete Payment")
     payment_id = st.number_input("Payment ID", min_value=1, step=1)
 

@@ -37,21 +37,22 @@ def main():
         )
         if selected_option == "Expense Tracking":
             pass
+        
         if selected_option == "Receipt Management":
             st.switch_page('pages/Admin_Receipt_Management.py')
+            
         if selected_option == "Financial Reporting":
             pass
-            # financial_reporting_ui()
+        
         if selected_option == "Expense Categories":
             st.switch_page('pages/Admin_Expense_Category.py')
-            # expense_categories_ui()
+            
         if selected_option == "Membership Management":
             st.switch_page('pages/Admin_Membership_Management.py')
-            pass
-            # fundraising_ui()
+            
         if selected_option == "Training and Education":
-            pass
-            # training_and_education_ui()
+            st.switch_page("pages/Admin_Training_Education.py")
+            
         if selected_option == "Return":
             st.switch_page("pages/Admin_Admin_Panel.py")
     

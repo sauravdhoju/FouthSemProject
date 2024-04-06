@@ -2,9 +2,8 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
 from modules.Executive_Member.CRUD_Admin_Exec_Member_UI import add_executive_members_ui, display_executive_members_ui, delete_executive_members_ui, update_executive_members_ui
-from modules.Create_Connection.Create_Connection import create_connection
 
-conn = create_connection()
+
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
     with col1_exe_nav_panel:

@@ -2,9 +2,7 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
 from modules.Club_Expenses.Expense_Category.CRUD_Admin_Exec_Club_Expense_Category_UI import add_receipt
-from modules.Create_Connection.Create_Connection import create_connection
 
-conn = create_connection()
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
     with col1_exe_nav_panel:

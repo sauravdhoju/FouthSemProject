@@ -43,7 +43,7 @@ def main():
         elif selected_option == 'Remove Payment':
             delete_payment_ui()
         elif selected_option == 'Return':
-            st.switch_page('pages/Admin_Club_Expenses.py')
+            st.switch_page('pages/Admin_Membership_Management.py')
         
 if __name__ == "__main__":
     if 'username' in st.session_state:

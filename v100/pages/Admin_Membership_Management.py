@@ -2,17 +2,15 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
 from modules.Club_Expenses.Expense_Category.CRUD_Admin_Exec_Club_Expense_Category_UI import add_expense_category_ui, view_expense_category_ui, update_expense_category_ui, remove_expense_category_ui
-from modules.Create_Connection.Create_Connection import create_connection
 
-conn = create_connection()
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
     with col1_exe_nav_panel:
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  
-            options=["Record Payments", "View History", "Generate Reports", "Send Reminders", "Fee Status Tracking", "Manage Renewals", "Update Inormation", "Return"],
-            icons=["credit-card", "clock-history", "file-text", "bell", "clipboard-data", "gear-wide-connected", "person-gear", "arrow-return-left"],
+            options=["Club", "Record Payments", "View History", "Generate Reports", "Send Reminders", "Fee Status Tracking", "Manage Renewals", "Update Inormation", "Return"],
+            icons=["home", "credit-card", "clock-history", "file-text", "bell", "clipboard-data", "gear-wide-connected", "person-gear", "arrow-return-left"],
             orientation="vertical",
             styles={
                 "container": {"padding": "0!important", "background-color": "#fafafa"},
@@ -36,7 +34,9 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        if  selected_option == 'Record Payments':
+        if selected_option == "Club":
+            pass
+        elif  selected_option == 'Record Payments':
             st.switch_page("pages/Admin_Membership_Record_Payment.py")
         elif selected_option == 'View History':
             pass
