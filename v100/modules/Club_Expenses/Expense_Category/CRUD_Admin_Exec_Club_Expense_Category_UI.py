@@ -4,14 +4,8 @@ from modules.Create_Connection.Create_Connection import create_connection, fetch
 def receipt_management_ui():
     st.header(f"Receipt Management")
 
-def add_receipt():
-    col1,col2,col3 = st.columns(3)
-    with col1:
-        st.text_input('Customer Name')
-    with col2:
-        st.text_input('vendor')
-    with col3:
-        st.text_input('vendor1')
+# def add_receipt():
+    
    
 #Categories UI
 def display_category_table(categories):

@@ -36,41 +36,7 @@ class SQLiteDatabase:
             print("Record inserted successfully.")
         except sqlite3.Error as e:
             print(f"Error inserting record into '{table_name}': {e}")
-    
-    
-    def fetch_if(self, table_name, dict_conditions={}):
-        '''Fetches Rows if dict_conditions matches '''
-        query = f'SELECT * FROM {table_name} '
-        conditions = []
-        values = []
 
-        if dict_conditions:
-            query += 'WHERE '
-            for key, value in dict_conditions.items():
-                conditions.append(f'{key} = ?')
-                values.append(value)
-            query += ' AND '.join(conditions)
-
-        try:
-            with self.connection:
-                self.cursor.execute(query, values)
-                rows = self.cursor.fetchall()
-
-                '''Convert rows to list of dictionaries for easier display'''
-                rows_dicts = []
-                for row in rows:
-                    row_dict = {}
-                    for i, column in enumerate(self.cursor.description):
-                        row_dict[column[0]] = row[i]
-                    rows_dicts.append(row_dict)
-                
-                return rows_dicts
-
-        except sqlite3.Error as e:
-            print(f"Error fetching records from '{table_name}': {e}")
-            return []   
-    
-    
     def retrieve_records(self, table_name, conditions=None):
         try:
             with self.connection:
@@ -96,22 +62,62 @@ class SQLiteDatabase:
             print("Record updated successfully.")
         except sqlite3.Error as e:
             print(f"Error updating record in '{table_name}': {e}")
-            
+
     def delete_record(self, table_name, conditions):
         try:
-            print(f"Attempting to delete record from {table_name}...")
-            print("Delete conditions:", conditions)
             with self.connection:
                 condition_str = ' AND '.join([f"{column} = ?" for column in conditions.keys()])
                 sql = f"DELETE FROM {table_name} WHERE {condition_str}"
-                print("SQL query:", sql)
                 self.cursor.execute(sql, tuple(conditions.values()))
-                if self.cursor.rowcount > 0:
-                    print("Record deleted successfully.")
-                    return True
-                else:
-                    print("No matching record found.")
-                    return False
-        except Error as e:
+            print("Record deleted successfully.")
+        except sqlite3.Error as e:
             print(f"Error deleting record from '{table_name}': {e}")
-            return False
+
+# Example usage:
+if __name__ == "__main__":
+    db_file = "example.db"
+
+    # Creating and using SQLiteDatabase within a context manager
+    with SQLiteDatabase(db_file) as db:
+        # Define table schemas
+        table_schemas = {
+            "members": {
+                "id": "INTEGER PRIMARY KEY",
+                "name": "TEXT",
+                "age": "INTEGER",
+                "email": "TEXT"
+            },
+            "records": {
+                "id": "INTEGER PRIMARY KEY",
+                "name": "TEXT",
+                "age": "INTEGER",
+                "email": "TEXT",
+                "gender": "TEXT",
+                "studying": "TEXT"
+            }
+        }
+
+        # Create tables
+        for table_name, columns in table_schemas.items():
+            db.create_table(table_name, columns)
+
+        # Insert records
+        member_data = {"name": "John Doe", "age": 30, "email": "john@example.com"}
+        db.create_record("members", member_data)
+        saurav = {"name": "Saurav Dhoju", "age": 18, "email": "sauravdhoju@example.com", "gender": "male", "studying": "Bachelor"}
+        db.create_record("records", saurav)
+
+        # Retrieve records
+        members = db.retrieve_records("members")
+        print("Members:")
+        for member in members:
+            print(member)
+
+        # Update records
+        update_data = {"age": 31}
+        update_conditions = {"name": "John Doe"}
+        db.update_record("members", update_data, update_conditions)
+
+        # Delete records
+        delete_conditions = {"name": "John Doe"}
+        db.delete_record("members", delete_conditions)
