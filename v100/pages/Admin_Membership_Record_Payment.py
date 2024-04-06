@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.Club_Expenses.Member_Management.CRUD_Record_Payment_UI import create_payment_ui, retrieve_member_information_ui, update_payment_ui, delete_payment_ui
+from modules.Club_Expenses.Member_Management.CRUD_Record_Payment_UI import create_payment_ui, search_payment_by_username_ui, update_payment_ui, delete_payment_ui
 
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
@@ -37,7 +37,7 @@ def main():
         if  selected_option == 'Add Payment':
             create_payment_ui()
         elif selected_option == 'View Payment':
-            retrieve_member_information_ui()
+            search_payment_by_username_ui()
         elif selected_option == 'Update Payment':
             update_payment_ui()
         elif selected_option == 'Remove Payment':

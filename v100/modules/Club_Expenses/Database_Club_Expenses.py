@@ -1,6 +1,7 @@
 import streamlit as st
-import sqlite3
 from modules.Create_Connection.Create_Connection import create_connection 
+from modules.database import SQLiteDatabase
+
 
 def create_club_expense_table(db):
     expense_categories_columns = {
@@ -39,7 +40,7 @@ def create_club_expense_table(db):
         "payment_amount": "REAL",
         "payment_date": "DATE",
         "payment_method": "TEXT",
-        "category_name": "TEXT UNIQUE NOT NULL",
+        "category_name": "TEXT",
         "FOREIGN KEY (username)": "REFERENCES Members(username)",
         "FOREIGN KEY (category_name)": "REFERENCES Expense_Categories(category_name)"
     }
@@ -110,37 +111,43 @@ def delete_category(db, category_name):
         return False
     
 #MEMBERSHIP MANAGEMENT
-def create_payment(username, payment_amount, payment_date, payment_method, category_name):
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''INSERT INTO Payments (username, payment_amount, payment_date, payment_method, category_name) 
-                        VALUES (?, ?, ?, ?, ?)''', (username, payment_amount, payment_date, payment_method, category_name))
-    conn.commit()
-    return True
+def record_payment(username, payment_amount, payment_date, payment_method, selected_category):
+    with SQLiteDatabase("accounting.db") as db:
+        payment_record = {
+            "username": username,
+            "payment_amount": payment_amount,
+            "payment_date": payment_date,
+            "payment_method": payment_method,
+            "category_name": selected_category
+        }
+        if db.create_record("Payments", payment_record):
+            st.success("Payment recorded successfully.")
+            inserted_record = db.retrieve_records("Payments", {"username": username, "payment_date": payment_date})
+            if inserted_record:
+                st.write("Inserted Payment Record:", inserted_record)
+            else:
+                st.error("Failed to retrieve payment record.")
+        else:
+            st.error("Failed to record payment.")
 
-def retrieve_member_information(username):
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''SELECT * FROM Payments WHERE username = ?''', (username,))
-    member_info = cursor.fetchone()
-    return member_info
+def display_payment_table(pay):
+    st.table(pay) 
 
-def update_payment(payment_id, payment_amount, payment_date, payment_method):
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''UPDATE Payments 
-                        SET payment_amount = ?, payment_date = ?, payment_method = ?
-                        WHERE payment_id = ?''', (payment_amount, payment_date, payment_method, payment_id))
-    conn.commit()
+def update_payment(username, payment_amount, payment_date, payment_method):
+    with SQLiteDatabase("accounting.db") as db:
+        conditions = {"username": username}
+        new_data = {
+            "payment_amount": payment_amount,
+            "payment_date": payment_date,
+            "payment_method": payment_method
+        }
+        db.update_record("Payments", new_data, conditions)
     return True
 
 def delete_payment(payment_id):
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''DELETE FROM Payments WHERE payment_id = ?''', (payment_id,))
-    conn.commit()
-    return True
-
+    with SQLiteDatabase("accounting.db") as db:
+        conditions = {"payment_id": payment_id}
+        return db.delete_record("Payments", conditions)
 
 #RECEIPTS TABLE
 def insert_receipt(transaction_id, date, vendor, amount, category_id):

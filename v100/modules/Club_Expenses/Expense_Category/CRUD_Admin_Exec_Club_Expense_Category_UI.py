@@ -1,14 +1,12 @@
 import streamlit as st
 from modules.Club_Expenses.Database_Club_Expenses import insert_expense_category, display_category_table, update_category, delete_category
-from modules.Create_Connection.Create_Connection import create_connection, fetch_if
 from modules.database import *
 def receipt_management_ui():
     st.header(f"Receipt Management")
 
 # def add_receipt():
     
-   
-    
+
 def add_expense_category_ui():
     st.header("Add Expense Category")
     col1, col2, col3 = st.columns([4, 4, 4])
@@ -53,7 +51,7 @@ def view_expense_category_ui():
         
         if all_categories_button:
             with SQLiteDatabase("accounting.db") as db:
-                all_categories = db.retrieve_records("Expense_Categories")
+                all_categories = db.fetch_if("Expense_Categories", {})
                 if all_categories:
                     st.write('All Categories: ')
                     display_category_table(all_categories)
@@ -82,7 +80,6 @@ def update_expense_category_ui():
                                 st.success('Updated Successfully')
                     else:
                         st.error("Category not found. Please enter a valid category name.")
-
 
 def remove_expense_category_ui():
     with st.form(key="search_form"):
