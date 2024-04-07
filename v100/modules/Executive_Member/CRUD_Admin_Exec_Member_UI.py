@@ -5,7 +5,7 @@ from modules.database import SQLiteDatabase
 
 def add_executive_members_ui():
     st.subheader("Add Executive Members")
-    with st.form(key="add_executive_form"):
+    with st.form(key="add_executive_form", clear_on_submit= True):
         col1, col2, col3 = st.columns([5, 5, 5])
         with col1:
             st.write("Personal Details")
@@ -47,7 +47,7 @@ def add_executive_members_ui():
 
 def display_executive_members_ui():
     with SQLiteDatabase("accounting.db") as db:
-        with st.form(key="search_form"):
+        with st.form(key="search_form", clear_on_submit= True):
             col1, col2, col3 = st.columns([4, 4, 4])
             with col2:
                 username = st.text_input("Search by name or email")
@@ -61,7 +61,7 @@ def display_executive_members_ui():
                 else:
                     st.write("No matching executive members found.")
             
-        with st.form(key="all_members_form"):
+        with st.form(key="all_members_form", clear_on_submit= True):
             col1, col2, col3 = st.columns([4, 4, 4])
             with col2:
                 all_members_button = st.form_submit_button("Show All Executive Members")
@@ -129,7 +129,7 @@ def update_executive_members_ui():
                     st.error("Executive member not found. Please enter a valid username.")
 
 def delete_executive_members_ui():
-    with st.form(key="search_form"):
+    with st.form(key="search_form1", clear_on_submit= True):
         username = st.text_input("Search by username")
         search_button = st.form_submit_button("Search")
         delete_button = st.form_submit_button("Delete")
@@ -154,3 +154,28 @@ def delete_executive_members_ui():
                     st.success("Deleted Successfully")
                 else:
                     st.error("Failed to Delete")
+  
+def get_logged_in_user_details():
+    if 'username' in st.session_state:
+        username = st.session_state.username
+        # Add other user details as needed
+        return username
+    else:
+        return None, None  # Return None if user details are not found
+                    
+def view_user_details_ui():
+    logged_in_username= get_logged_in_user_details()  # We only need the username
+    if logged_in_username:
+        st.subheader("User Details")
+        # Fetch the details of the logged-in user
+        with SQLiteDatabase("accounting.db") as db:
+            user_details = db.fetch_if("Members", {"username": logged_in_username})
+        
+        # Check if user details are found
+        if user_details:
+            st.write("Profile Details:")
+            st.write(user_details)
+        else:
+            st.error("User details not found.")
+    else:
+        st.error("User details not found. Please log in.")

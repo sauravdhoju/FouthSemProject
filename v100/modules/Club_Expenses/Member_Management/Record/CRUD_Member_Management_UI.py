@@ -29,7 +29,7 @@ def search_payment_by_username_ui():
     st.header("Search Payments by Username")
     col1, col2, col3 = st.columns([4, 4, 4])
     with col2: 
-        with st.form(key="payment_search_form"):
+        with st.form(key="payment_search_form", clear_on_submit= True):
             username = st.text_input('Enter Username')
             search_button = st.form_submit_button('Search Payments')
 
@@ -42,7 +42,7 @@ def search_payment_by_username_ui():
             else:
                 st.write("No payments found for this username.")
     else:
-        with st.form("all_payments_form"):
+        with st.form("all_payments_form", clear_on_submit= True):
             col1, col2, col3 = st.columns([6, 4, 4])
             with col2:
                 all_payments_button = st.form_submit_button("Show All Payments")

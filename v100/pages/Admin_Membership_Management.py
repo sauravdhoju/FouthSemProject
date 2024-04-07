@@ -41,7 +41,7 @@ def main():
         elif selected_option == 'View History':
             st.switch_page("pages/Admin_History_page.py")
         elif selected_option == 'Generate Reports':
-            pass
+            st.switch_page("pages/Admin_Generate_Reports.py")
         elif selected_option == 'Send Reminders':
             pass
         elif selected_option == 'Fee Status Tracking':

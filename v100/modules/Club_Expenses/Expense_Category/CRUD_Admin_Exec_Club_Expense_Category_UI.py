@@ -31,7 +31,7 @@ def view_expense_category_ui():
     st.header("View Expense Category")
     col1, col2, col3 = st.columns([4, 4, 4])
     with col2: 
-        with st.form(key="expense_view_form"):
+        with st.form(key="expense_view_form", clear_on_submit= True):
             view_category = st.text_input('Category Name')
             search_button = st.form_submit_button('View Category')
 
@@ -44,7 +44,7 @@ def view_expense_category_ui():
             else:
                 st.write("No matching categories found")
     else:
-        with st.form("all_categories_form"):
+        with st.form("all_categories_form", clear_on_submit= True):
             col1, col2, col3 = st.columns([6, 4, 4])
             with col2:
                 all_categories_button = st.form_submit_button("Show All Categories")
@@ -64,7 +64,7 @@ def update_expense_category_ui():
     
     with col2:
         category_name = st.text_input("Category Name*")
-        with st.form(key="expense_update_form"):
+        with st.form(key="expense_update_form", clear_on_submit= True):
             new_category = st.text_input("New Category*")
             new_description = st.text_area("Description*")
             logged_in_user = st.session_state.get('username', '') 
@@ -82,7 +82,7 @@ def update_expense_category_ui():
                         st.error("Category not found. Please enter a valid category name.")
 
 def remove_expense_category_ui():
-    with st.form(key="search_form"):
+    with st.form(key="search_form", clear_on_submit= True):
         col1, col2, col3 = st.columns([4, 4, 4])
         with col2:
             category_name = st.text_input("Category Name")

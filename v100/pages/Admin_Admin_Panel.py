@@ -11,8 +11,8 @@ def main():
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  # Title of the menu
-            options=["Dashboard", "Executives", "Club Expenses", "Bank Transaction", "Logout"], 
-            icons=["house", "people-fill", "wallet2", "bank2", "power"], 
+            options=["Dashboard", "Executives", "Club Expenses", "Bank Transaction","View Profile", "Logout"], 
+            icons=["house", "people-fill", "wallet2", "bank2","people", "power"], 
             menu_icon="th-large",  
             default_index=0, 
             orientation="vertical",  # Orientation of the menu (vertical or horizontal)
@@ -28,17 +28,7 @@ def main():
                 "nav-link-selected": {"background-color": "grey"},
             },
         )
-        if selected_option == "Dashboard":
-            pass
-        if selected_option == "Executives":
-            st.switch_page("pages/Admin_Executive_Management.py")
-        if selected_option == "Club Expenses":
-            st.switch_page("pages/Admin_Club_Expenses.py")
-        if selected_option == "Bank Transaction":
-            st.switch_page("pages/Admin_Bank_Transaction.py")
-        if selected_option == "Logout":
-            st.session_state.clear()
-            st.rerun()
+        
     with col2_dashboard_pan:
         st.markdown(
             """
@@ -49,8 +39,19 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        with st.container():
+        if selected_option == "Dashboard":      
             pass
+        elif selected_option == "Executives":
+            st.switch_page("pages/Admin_Executive_Management.py")
+        elif selected_option == "Club Expenses":
+            st.switch_page("pages/Admin_Club_Expenses.py")
+        elif selected_option == "Bank Transaction":
+            st.switch_page("pages/Admin_Bank_Transaction.py")
+        elif selected_option == "View Profile":
+            st.switch_page("pages/Profile.py")
+        elif selected_option == "Logout":
+            st.session_state.clear()
+            st.rerun()
     
 if __name__ == "__main__":
     if 'username' in st.session_state:
