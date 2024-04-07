@@ -2,6 +2,7 @@ import streamlit as st
 from modules.Club_Expenses.Database_Club_Expenses import record_payment, update_payment, delete_payment, display_payment_table
 from modules.database import SQLiteDatabase
 
+#Records
 def create_payment_ui():
     st.header("Record Payment")
     username = st.text_input("Username")
@@ -79,3 +80,28 @@ def delete_payment_ui():
             st.success("Payment deleted successfully.")
         else:
             st.error("Failed to delete payment.")
+
+#View History
+def fetch_payment_history(start_date, end_date):
+    try:
+        with SQLiteDatabase("accounting.db") as db:
+            start_date_str = start_date.strftime('%Y-%m-%d')
+            end_date_str = end_date.strftime('%Y-%m-%d')
+            
+            # Define the SQL query to select payment information within the specified date range
+            query = "SELECT payment_date, username,   payment_method, category_name,payment_amount FROM Payments WHERE payment_date BETWEEN ? AND ?"
+            
+            db.cursor.execute(query, (start_date_str, end_date_str))
+            column_names = [description[0] for description in db.cursor.description]
+            
+            rows = db.cursor.fetchall()
+            
+            payment_history = []
+            for row in rows:
+                payment_info = dict(zip(column_names, row))
+                payment_history.append(payment_info)
+            
+        return payment_history
+    except Exception as e:
+        print(f"Error fetching payment history: {e}")
+        return None
