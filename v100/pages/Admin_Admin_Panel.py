@@ -4,15 +4,14 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
 
-# st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 def main():
     col1_nav_panel, col2_dashboard_pan= st.columns([1,5])
     with col1_nav_panel:
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  # Title of the menu
-            options=["Dashboard", "Executives", "Club Expenses", "Bank Transaction","View Profile", "Logout"], 
-            icons=["house", "people-fill", "wallet2", "bank2","people", "power"], 
+            options=["Dashboard", "Executives", "Club Expenses", "Membership Management", "Bank Transaction","View Profile", "Logout"], 
+            icons=["house", "people-fill", "wallet2", "wallet2", "bank2","people", "power"], 
             menu_icon="th-large",  
             default_index=0, 
             orientation="vertical",  # Orientation of the menu (vertical or horizontal)
@@ -45,6 +44,8 @@ def main():
             st.switch_page("pages/Admin_Executive_Management.py")
         elif selected_option == "Club Expenses":
             st.switch_page("pages/Admin_Club_Expenses.py")
+        if selected_option == "Membership Management":
+            st.switch_page('pages/Admin_Membership_Management.py')
         elif selected_option == "Bank Transaction":
             st.switch_page("pages/Admin_Bank_Transaction.py")
         elif selected_option == "View Profile":

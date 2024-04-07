@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-
+from modules.Club_Expenses.Member_Management.Generate_Reports.Generate_reports import generate_membership_report, generate_payment_report
 # Import functions for generating reports (not implemented here)
 
 def main():
@@ -37,11 +37,10 @@ def main():
             unsafe_allow_html=True
         )
         if selected_option == 'Membership Report':
-            pass
-            # generate_membership_report()  # Call function to generate membership report
+            
+            generate_membership_report()  # Call function to generate membership report
         elif selected_option == 'Payment Report':
-            pass
-            # generate_payment_report()  # Call function to generate payment report
+            generate_payment_report()  # Call function to generate payment report
         elif selected_option == 'Expense Report':
             pass
             # generate_expense_report()  # Call function to generate expense report

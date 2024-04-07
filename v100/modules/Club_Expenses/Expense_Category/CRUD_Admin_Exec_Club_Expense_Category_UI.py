@@ -11,21 +11,21 @@ def add_expense_category_ui():
     st.header("Add Expense Category")
     col1, col2, col3 = st.columns([4, 4, 4])
     with col2:
-        category_name = st.text_input('Category name')
-        category_description = st.text_area('Description')
-        logged_in_user = st.session_state['username']
-        print(logged_in_user)
+        with st.form(key="expense_category", clear_on_submit=True):
+            category_name = st.text_input('Category name')
+            category_description = st.text_area('Description')
+            logged_in_user = st.session_state['username']
 
-        if st.button("Add Category"):
-            if category_name.strip() == "":
-                st.error("Please enter a category name.")
-            else:
-                with SQLiteDatabase("accounting.db") as db:
-                    if insert_expense_category(db, category_name, category_description, logged_in_user):
-                        print(insert_expense_category(db, category_name, category_description, logged_in_user))
-                        st.success("Expense category added successfully.")
-                    else:
-                        st.error("Already Exists Category")
+            if st.form_submit_button("Add Category"):
+                if category_name.strip() == "":
+                    st.error("Please enter a category name.")
+                else:
+                    with SQLiteDatabase("accounting.db") as db:
+                        if insert_expense_category(db, category_name, category_description, logged_in_user):
+                            print(insert_expense_category(db, category_name, category_description, logged_in_user))
+                            st.success("Expense category added successfully.")
+                        else:
+                            st.error("Already Exists Category")
 
 def view_expense_category_ui():
     st.header("View Expense Category")

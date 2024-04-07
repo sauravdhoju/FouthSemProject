@@ -51,7 +51,7 @@ def main():
         elif selected_option == 'Update Inormation':
             pass
         elif selected_option == 'Return':
-            st.switch_page('pages/Admin_Club_Expenses.py')
+            st.switch_page('pages/Admin_Admin_Panel.py')
         
 if __name__ == "__main__":
     if 'username' in st.session_state:

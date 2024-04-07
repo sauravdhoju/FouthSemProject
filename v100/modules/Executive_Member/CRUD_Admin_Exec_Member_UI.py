@@ -158,20 +158,17 @@ def delete_executive_members_ui():
 def get_logged_in_user_details():
     if 'username' in st.session_state:
         username = st.session_state.username
-        # Add other user details as needed
         return username
     else:
-        return None, None  # Return None if user details are not found
+        return None, None 
                     
 def view_user_details_ui():
-    logged_in_username= get_logged_in_user_details()  # We only need the username
+    logged_in_username= get_logged_in_user_details() 
     if logged_in_username:
         st.subheader("User Details")
-        # Fetch the details of the logged-in user
         with SQLiteDatabase("accounting.db") as db:
             user_details = db.fetch_if("Members", {"username": logged_in_username})
         
-        # Check if user details are found
         if user_details:
             st.write("Profile Details:")
             st.write(user_details)
