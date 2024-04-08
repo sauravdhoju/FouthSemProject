@@ -1,15 +1,14 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.Member_Management.History.Admin_view_History import view_payment_history_ui
 def main():
-    col1_exe_nav_panel, col2_exe_dashboard = st.columns([1,5])
+    col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
     with col1_exe_nav_panel:
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  
-            options=["History", "Return"],
-            icons=["clock-history", "arrow-return-left"],
+            options=["Club", "Record Payments", "View History", "Generate Reports", "Send Reminders", "Fee Status Tracking", "Manage Renewals", "Update Inormation", "Return"],
+            icons=["home", "credit-card", "clock-history", "file-text", "bell", "clipboard-data", "gear-wide-connected", "person-gear", "arrow-return-left"],
             orientation="vertical",
             styles={
                 "container": {"padding": "0!important", "background-color": "#fafafa"},
@@ -33,12 +32,25 @@ def main():
             """,
             unsafe_allow_html=True
         )
-        if selected_option == 'History':
-            view_payment_history_ui()
+        if selected_option == "Club":
+            pass
+        elif  selected_option == 'Record Payments':
+            st.switch_page("pages/Admin_Membership_Record_Payment.py")
+        elif selected_option == 'View History':
+            st.switch_page("pages/Admin_History_page.py")
+        elif selected_option == 'Generate Reports':
+            st.switch_page("pages/Admin_Generate_Reports.py")
+        elif selected_option == 'Send Reminders':
+            pass
+        elif selected_option == 'Fee Status Tracking':
+            pass
+        elif selected_option == 'Manage Renewals':
+            pass
+        elif selected_option == 'Update Inormation':
+            pass
         elif selected_option == 'Return':
-            st.switch_page('pages/Admin_Membership_Management.py')
-
-
+            st.switch_page('pages/Admin_Admin_Panel.py')
+        
 if __name__ == "__main__":
     if 'username' in st.session_state:
         main()

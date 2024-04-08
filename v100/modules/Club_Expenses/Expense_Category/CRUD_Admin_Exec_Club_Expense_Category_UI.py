@@ -1,11 +1,6 @@
 import streamlit as st
 from modules.Club_Expenses.Database_Club_Expenses import insert_expense_category, display_category_table, update_category, delete_category
 from modules.database import *
-def receipt_management_ui():
-    st.header(f"Receipt Management")
-
-# def add_receipt():
-    
 
 def add_expense_category_ui():
     st.header("Add Expense Category")
@@ -105,9 +100,3 @@ def remove_expense_category_ui():
                 deleted = delete_category(db, category_name)  # Pass db object as argument
                 if deleted:
                     st.success("Deleted Successfully")
-    
-def fundraising_ui():
-    st.header("fundraising ")
-
-def training_and_education_ui():
-    st.header("training category")

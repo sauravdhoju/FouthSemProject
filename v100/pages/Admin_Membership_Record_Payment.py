@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.Club_Expenses.Member_Management.Record.CRUD_Member_Management_UI import create_payment_ui, search_payment_by_username_ui, update_payment_ui, delete_payment_ui
+from modules.Member_Management.Record.CRUD_Member_Management_UI import create_payment_ui, search_payment_by_username_ui, update_payment_ui, delete_payment_ui
 
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])

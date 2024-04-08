@@ -12,17 +12,21 @@ def create_club_expense_table(db):
         "last_updated_by": "TEXT",
         "last_updated_date": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
     }
-    
-    receipts_columns = {
-        "receipt_id": "INTEGER PRIMARY KEY",
-        "transaction_id": "INTEGER UNIQUE NOT NULL",
-        "date": "TEXT",
-        "vendor": "TEXT",
-        "amount": "REAL NOT NULL",
-        "category_id": "INTEGER",
-        "FOREIGN KEY (transaction_id)": "REFERENCES Transactions(transaction_id)",
-        "FOREIGN KEY (category_id)": "REFERENCES Expense_Categories(category_id)"
+        
+    receipt_columns = {
+        'receipt_number': 'TEXT',
+        'date': 'TEXT',
+        'payment_type': 'TEXT',
+        'payer_name': 'TEXT',
+        'purpose': 'TEXT',
+        'quantity': 'INTEGER',
+        'rate': 'REAL',
+        'vat_percent': 'REAL',  # Store as decimal or float
+        'discount_percent': 'REAL' , # Store as decimal or float
+        'amount': 'REAL'
     }
+
+
 
     financial_reports_columns = {
         "report_id": "INTEGER PRIMARY KEY",
@@ -55,7 +59,7 @@ def create_club_expense_table(db):
     
     
     db.create_table("Expense_Categories", expense_categories_columns)
-    db.create_table("Receipts", receipts_columns)
+    db.create_table("Receipts", receipt_columns)
     db.create_table("Financial_Reports", financial_reports_columns)
     db.create_table("Payments", payments_columns)
     db.create_table("Training", training_columns)
@@ -112,73 +116,100 @@ def delete_category(db, category_name):
 #MEMBERSHIP MANAGEMENT
 def record_payment(username, payment_amount, payment_date, payment_method, selected_category):
     with SQLiteDatabase("accounting.db") as db:
-        payment_record = {
-            "username": username,
-            "payment_amount": payment_amount,
-            "payment_date": payment_date,
-            "payment_method": payment_method,
-            "category_name": selected_category
-        }
-        if db.create_record("Payments", payment_record):
-            st.success("Payment recorded successfully.")
-            inserted_record = db.retrieve_records("Payments", {"username": username, "payment_date": payment_date})
-            if inserted_record:
-                st.write("Inserted Payment Record:", inserted_record)
+        # Check if the username exists in the database
+        user_exists = db.fetch_if("Members", {"username": username})
+        if user_exists:
+            payment_record = {
+                "username": username,
+                "payment_amount": payment_amount,
+                "payment_date": payment_date,
+                "payment_method": payment_method,
+                "category_name": selected_category
+            }
+            if db.create_record("Payments", payment_record):
+                st.success("Payment recorded successfully.")
+                inserted_record = db.retrieve_records("Payments", {"username": username, "payment_date": payment_date})
+                if inserted_record:
+                    st.write("Inserted Payment Record:", inserted_record)
+                else:
+                    st.error("Failed to retrieve payment record.")
             else:
-                st.error("Failed to retrieve payment record.")
+                st.error("Failed to record payment.")
         else:
-            st.error("Failed to record payment.")
+            st.error("Username does not exist in the database. Please check and try again.")
 
 def display_payment_table(pay):
     st.table(pay) 
 
-def update_payment(username, payment_amount, payment_date, payment_method):
+def update_payment(username, payment_amount, payment_date, payment_method, category_name):
+    with SQLiteDatabase("accounting.db") as db:
+        user_exists = db.fetch_if("Payments", {"username": username})
+        if user_exists:
+            conditions = {"username": username}
+            new_data = {
+                "payment_amount": payment_amount,
+                "payment_date": payment_date,
+                "payment_method": payment_method,
+                "category_name": category_name
+            }
+            db.update_record("Payments", new_data, conditions)
+            return True
+        else:
+            return False
+
+def delete_payment(username):
     with SQLiteDatabase("accounting.db") as db:
         conditions = {"username": username}
-        new_data = {
-            "payment_amount": payment_amount,
-            "payment_date": payment_date,
-            "payment_method": payment_method
-        }
-        db.update_record("Payments", new_data, conditions)
-    return True
-
-def delete_payment(payment_id):
-    with SQLiteDatabase("accounting.db") as db:
-        conditions = {"payment_id": payment_id}
         return db.delete_record("Payments", conditions)
 
-#RECEIPTS TABLE
-def insert_receipt(transaction_id, date, vendor, amount, category_id):
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''INSERT INTO Receipts (transaction_id, date, vendor, amount, category_id) 
-                        VALUES (?, ?, ?, ?, ?)''', (transaction_id, date, vendor, amount, category_id))
-    conn.commit()
-    print("Receipt added successfully")  
 
-def get_all_receipts():
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''SELECT * FROM Receipts''')
-    rows = cursor.fetchall()
-    return rows
 
-def update_receipt(receipt_id, transaction_id, date, vendor, amount, category_id):
-    conn = create_connection()
-    cursor = conn.coursor()
-    cursor.execute('''UPDATE Receipts SET transaction_id = ?, date = ?, vendor = ?, amount = ?, category_id = ? 
-                        WHERE receipt_id = ?''',
-                    (transaction_id, date, vendor, amount, category_id, receipt_id)) 
-    conn.commit()
-    print('Receipt updated successfully')
-        
-def delete_receipt(receipt_id):
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''DELETE FROM Receipts WHERE receipt_id = ?''', (receipt_id,))
-    conn.commit()
-    print("Receipt deleted successfully")
+def add_receipt_backend(data):
+    # Add receipt to the database
+    with SQLiteDatabase("accounting.db") as db:
+        columns = {
+            'quantity': 'INTEGER',
+            'rate': 'REAL',
+            'date': 'TEXT',
+            'receipt_number': 'TEXT',
+            'amount': 'REAL',
+            'purpose': 'TEXT',
+            'payer_name': 'TEXT',
+            'payment_type': 'TEXT'
+        }
+        db.create_table('receipts', columns)
+        success = db.create_record('receipts', data)
+        return success
+
+def retrieve_receipts_backend():
+    # Retrieve all receipts from the database
+    with SQLiteDatabase("accounting.db") as db:
+        return db.retrieve_records('receipts')
+
+def search_receipts_backend(query):
+    # Search for receipts in the database based on query
+    with SQLiteDatabase("accounting.db") as db:
+        conditions = {'receipt_number': query}
+        return db.fetch_if('receipts', conditions)
+
+def update_receipt_backend(receipt_id, new_data):
+    # Update receipt in the database
+    with SQLiteDatabase("accounting.db") as db:
+        existing_receipts = db.fetch_if("Receipts", {"receipt_number": receipt_id})
+        if not existing_receipts:
+            print("Receipt Id does not exists")
+            return False
+        else:
+            db.update_record("receipts", new_data, {"id": receipt_id})
+            print("Receipt updated successfully.")
+            return True
+
+def remove_receipt_backend(receipt_id):
+    # Remove receipt from the database
+    with SQLiteDatabase("accounting.db") as db:
+        conditions = {'receipt_number': receipt_id}
+        db.delete_record('receipts', conditions)
+
     
 #FINANCIAL TABLE
 def insert_financial_report():

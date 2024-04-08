@@ -14,16 +14,17 @@ def create_payment_ui():
     
     if st.button("Record Payment"):
         record_payment(username, payment_amount, payment_date, payment_method, selected_category)
-
 def fetch_payment_categories_ui():
     try:
         with SQLiteDatabase("accounting.db") as db:
-            categories = [category[1] for category in db.retrieve_records("Expense_Categories")]
+            categories = [category["category_name"] for category in db.fetch_if("Expense_Categories", {})]
         selected_category = st.selectbox("Payment Category", categories)
         return selected_category
     except Exception as e:
         print(f"Error fetching payment categories: {e}")
+        print(f"SQL Query: SELECT * FROM Expense_Categories")
         return None
+
 
 def search_payment_by_username_ui():
     st.header("Search Payments by Username")
@@ -63,23 +64,25 @@ def update_payment_ui():
     payment_amount = st.number_input("Payment Amount", min_value=0.0)
     payment_date = st.date_input("Payment Date")
     payment_method = st.selectbox("Payment Method", ["Cash", "Credit Card", "Debit Card", "Bank Transfer"])
+    selected_category = fetch_payment_categories_ui()
 
     if st.button("Update Payment"):
-        if update_payment(username, payment_amount, payment_date, payment_method):
+        if update_payment(username, payment_amount, payment_date, payment_method, selected_category):
             st.success("Payment updated successfully.")
         else:
-            st.error("Failed to update payment.")
+            st.error("No Username in the database")
         
 def delete_payment_ui():
     '''Delete Record Payments'''
     st.header("Delete Payment")
-    payment_id = st.number_input("Payment ID", min_value=1, step=1)
+    # payment_id = st.number_input("Payment ID", min_value=1, step=1)
+    username = st.text_input("Username")
 
     if st.button("Delete Payment"):
-        if delete_payment(payment_id):
+        if delete_payment(username):
             st.success("Payment deleted successfully.")
         else:
-            st.error("Failed to delete payment.")
+            st.error("No user found.")
 
 #View History
 def fetch_payment_history(start_date, end_date):

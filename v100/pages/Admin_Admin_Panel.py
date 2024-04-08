@@ -3,6 +3,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
+from modules.Dashboard.dashboard import main as dashboard
 
 def main():
     col1_nav_panel, col2_dashboard_pan= st.columns([1,5])
@@ -39,7 +40,7 @@ def main():
             unsafe_allow_html=True
         )
         if selected_option == "Dashboard":      
-            pass
+            dashboard()
         elif selected_option == "Executives":
             st.switch_page("pages/Admin_Executive_Management.py")
         elif selected_option == "Club Expenses":

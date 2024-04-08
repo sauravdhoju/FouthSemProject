@@ -37,10 +37,9 @@ def main():
             unsafe_allow_html=True
         )
         if selected_option == 'Membership Report':
-            
-            generate_membership_report()  # Call function to generate membership report
+            generate_membership_report() 
         elif selected_option == 'Payment Report':
-            generate_payment_report()  # Call function to generate payment report
+            generate_payment_report()  
         elif selected_option == 'Expense Report':
             pass
             # generate_expense_report()  # Call function to generate expense report

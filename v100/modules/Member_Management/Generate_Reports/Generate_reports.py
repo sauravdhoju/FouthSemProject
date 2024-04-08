@@ -19,18 +19,18 @@ def generate_membership_report():
         
         if active_membership_data:
             # Define table data for active members
-            active_table_data = [["Member Id", "Username", "Full Name", "Email", "Phone", "Position", "Active Status"]]
+            active_table_data = [["Username", "Full Name", "Email", "Phone", "Position", "Active Status"]]
             for member in active_membership_data:
-                active_table_data.append([member["member_id"], member["username"], member["full_name"], member["email"], member["phone"], member["position"], member["active_status"]])
+                active_table_data.append([member["username"], member["full_name"], member["email"], member["phone"], member["position"], member["active_status"]])
             
             # Create table for active members
             active_table = Table(active_table_data)
-            style = TableStyle([('BACKGROUND', (0,0), (-1,0), colors.grey),
-                                ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+            style = TableStyle([('BACKGROUND', (0,0), (-1,0), colors.white),
+                                ('TEXTCOLOR', (0,0), (-1,0), colors.black),
                                 ('ALIGN', (0,0), (-1,-1), 'CENTER'),
                                 ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
                                 ('BOTTOMPADDING', (0,0), (-1,0), 12),
-                                ('BACKGROUND', (0,1), (-1,-1), colors.beige),
+                                ('BACKGROUND', (0,1), (-1,-1), colors.white),
                                 ('GRID', (0,0), (-1,-1), 1, colors.black)])
             active_table.setStyle(style)
             
@@ -40,9 +40,9 @@ def generate_membership_report():
         
         if inactive_membership_data:
             # Define table data for inactive members
-            inactive_table_data = [["Member Id", "Username", "Full Name", "Email", "Phone", "Position", "Active Status"]]
+            inactive_table_data = [["Username", "Full Name", "Email", "Phone", "Position", "Active Status"]]
             for member in inactive_membership_data:
-                inactive_table_data.append([member["member_id"], member["username"], member["full_name"], member["email"], member["phone"], member["position"], member["active_status"]])
+                inactive_table_data.append([member["username"], member["full_name"], member["email"], member["phone"], member["position"], member["active_status"]])
             
             # Create table for inactive members
             inactive_table = Table(inactive_table_data)
@@ -84,12 +84,12 @@ def generate_payment_report():
         
         # Create table for payments
         payment_table = Table(payment_table_data)
-        style = TableStyle([('BACKGROUND', (0,0), (-1,0), colors.grey),
-                            ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+        style = TableStyle([('BACKGROUND', (0,0), (-1,0), colors.white),
+                            ('TEXTCOLOR', (0,0), (-1,0), colors.black),
                             ('ALIGN', (0,0), (-1,-1), 'CENTER'),
                             ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
                             ('BOTTOMPADDING', (0,0), (-1,0), 12),
-                            ('BACKGROUND', (0,1), (-1,-1), colors.beige),
+                            ('BACKGROUND', (0,1), (-1,-1), colors.white),
                             ('GRID', (0,0), (-1,-1), 1, colors.black)])
         payment_table.setStyle(style)
         

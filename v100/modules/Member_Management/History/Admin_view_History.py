@@ -1,6 +1,6 @@
 import streamlit as st
 from modules.Club_Expenses.Database_Club_Expenses import display_payment_table
-from modules.Club_Expenses.Member_Management.Record.CRUD_Member_Management_UI import fetch_payment_history
+from modules.Member_Management.Record.CRUD_Member_Management_UI import fetch_payment_history
 
 def view_payment_history_ui():
     st.header("View Payment History")

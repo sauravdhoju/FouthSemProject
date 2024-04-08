@@ -83,10 +83,15 @@ class SQLiteDatabase:
                 else:
                     sql = f"SELECT * FROM {table_name}"
                     self.cursor.execute(sql)
-                return self.cursor.fetchall()
+                # Fetch all records along with column names
+                columns = [column[0] for column in self.cursor.description]
+                records = [dict(zip(columns, row)) for row in self.cursor.fetchall()]
+                return records
         except sqlite3.Error as e:
             print(f"Error retrieving records from '{table_name}': {e}")
             return []
+
+
 
     def update_record(self, table_name, new_data, conditions):
         try:

@@ -89,7 +89,7 @@ def update_executive_members_ui():
         with col2:
             st.write("Contact Details")
             new_email_address = st.text_input('New Email Address')
-            new_contact = st.text_input('New Contact Number')
+            new_contact = st.number_input('New Contact Number')
             new_active_status = st.checkbox('New Active Status')
         with col3:
             st.write("Club Info")
@@ -101,7 +101,7 @@ def update_executive_members_ui():
     if update_button and executive_username.strip():
         # Connect to the database
         with SQLiteDatabase("accounting.db") as db:
-            if not all([new_username, new_full_name, new_password, new_email_address, new_contact, new_active_status, new_position, new_performance_metrics, new_access_level, new_role_id]):
+            if not all([new_username, new_full_name, new_password, new_email_address, new_contact, new_position, new_performance_metrics, new_access_level, new_role_id]):
                 st.error("Please fill all fields")
             else:
                 hashed_password = pbkdf2_sha256.hash(new_password)
