@@ -1,26 +1,13 @@
 from streamlit_option_menu import option_menu
 import streamlit as st  
 
-def generate_option_menu(options):
-    st.image("background.png")
-    selected_option = option_menu(
-        menu_title=None,
-        options=list(options.keys()),
-        icons=["home", "credit-card", "clock-history", "file-text", "bell", "clipboard-data", "gear-wide-connected", "person-gear", "arrow-return-left"],
-        orientation="vertical",
-        styles={
-            "container": {"padding": "0!important", "background-color": "#fafafa"},
-            "icon": {"color": "green", "font-size": "20px"},
-            "nav-link": {
-                "font-size": "15px",
-                "text-align": "left",
-                "margin": "0px",
-                "--hover-color": "#eee",
-            },
-            "nav-link-selected": {"background-color": "grey"},
-        },
-    )
-    return selected_option, options[selected_option]
+def option_menu(menu_title, options, icons, selected_option):
+    with st.container():
+        st.title(menu_title)
+        for option, icon in zip(options, icons):
+            st.write(f"{icon} {option}")
+        st.write(f"Selected Option: {selected_option}")
+
 
 def display_dashboard():
     st.markdown(

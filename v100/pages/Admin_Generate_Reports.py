@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
-from modules.Club_Expenses.Member_Management.Generate_Reports.Generate_reports import generate_membership_report, generate_payment_report
+from modules.Member_Management.Generate_Reports.Generate_reports import generate_membership_report, generate_payment_report
 # Import functions for generating reports (not implemented here)
 
 def main():

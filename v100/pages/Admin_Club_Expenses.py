@@ -8,8 +8,8 @@ def main():
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  # Title of the menu
-            options=["Expense Tracking", "Receipt Management", "Financial Reporting", "Expense Categories", "Training and Education", "Return"], 
-            icons=["bar-chart-fill", "receipt", "box-fill", "tag-fill", "journal-arrow-up", "arrow-return-left"], 
+            options=["Expense Tracking", "Receipt Management", "Expense Categories", "Return"], 
+            icons=["bar-chart-fill", "receipt", "tag-fill", "arrow-return-left"], 
             menu_icon="th-large",  
             default_index=0, 
             orientation="vertical",  # Orientation of the menu (vertical or horizontal)
@@ -40,16 +40,13 @@ def main():
         
         if selected_option == "Receipt Management":
             st.switch_page('pages/Admin_Receipt_Management.py')
-            
-        if selected_option == "Financial Reporting":
-            pass
         
         if selected_option == "Expense Categories":
             st.switch_page('pages/Admin_Expense_Category.py')
             
             
-        if selected_option == "Training and Education":
-            st.switch_page("pages/Admin_Training_Education.py")
+        # if selected_option == "Training and Education":
+        #     st.switch_page("pages/Admin_Training_Education.py")
             
         if selected_option == "Return":
             st.switch_page("pages/Admin_Admin_Panel.py")

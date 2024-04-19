@@ -1,6 +1,6 @@
 import streamlit as st
 from modules.database import SQLiteDatabase
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
 from reportlab.platypus import PageBreak
@@ -14,7 +14,7 @@ def generate_membership_report():
     # Check if there is any active membership data
     if active_membership_data or inactive_membership_data:
         # Create a PDF document
-        doc = SimpleDocTemplate("membership_report.pdf", pagesize=letter)
+        doc = SimpleDocTemplate("membership_report.pdf", pagesize=A4)
         elements = []  # List to hold all elements
         
         if active_membership_data:
@@ -74,7 +74,7 @@ def generate_payment_report():
     # Check if there is any payment data
     if payment_data:
         # Create a PDF document
-        doc = SimpleDocTemplate("payment_report.pdf", pagesize=letter)
+        doc = SimpleDocTemplate("payment_report.pdf", pagesize=A4)
         elements = []  # List to hold all elements
         
         # Define table data for payments

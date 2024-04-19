@@ -162,17 +162,76 @@ def get_logged_in_user_details():
     else:
         return None, None 
                     
+# def view_user_details_ui():
+#     logged_in_username= get_logged_in_user_details() 
+#     if logged_in_username:
+#         st.subheader("User Details")
+#         with SQLiteDatabase("accounting.db") as db:
+#             user_details = db.fetch_if("Members", {"username": logged_in_username})
+            
+#         if user_details:
+#             st.write("Profile Details:")
+#             st.table(user_details)
+#         else:
+#             st.error("User details not found.")
+#     else:
+#         st.error("User details not found. Please log in.")
+
+# def view_user_details_ui():
+#     logged_in_username = get_logged_in_user_details() 
+#     if logged_in_username:
+#         st.subheader("My Profile")
+#         with st.container():
+#             st.write(f"Logged in as: {logged_in_username}")
+
+#         with st.container(border= True):
+#             st.subheader("User Details")
+#             with SQLiteDatabase("accounting.db") as db:
+#                 user_details = db.fetch_if("Members", {"username": logged_in_username})
+
+#             if user_details:
+#                 user_detail = user_details[0]  # Assuming there is only one user detail record
+#                 st.write("Profile Details:")
+#                 st.write("Username:", user_detail.get("username", ""))
+#                 st.write("Email:", user_detail.get("email", ""))
+#                 st.write("Name:", user_detail.get("name", ""))
+#                 # Add more lines for other details as needed
+#             else:
+#                 st.error("User details not found.")
+#     else:
+#         st.error("User details not found. Please log in.")
+
+
+
 def view_user_details_ui():
-    logged_in_username= get_logged_in_user_details() 
+    logged_in_username = get_logged_in_user_details() 
     if logged_in_username:
+        st.title("My Profile")
+        st.write(f"Logged in as: {logged_in_username}")
+
         st.subheader("User Details")
-        with SQLiteDatabase("accounting.db") as db:
-            user_details = db.fetch_if("Members", {"username": logged_in_username})
         
-        if user_details:
-            st.write("Profile Details:")
-            st.write(user_details)
-        else:
-            st.error("User details not found.")
+        # Create three columns layout
+        col1, col2, col3 = st.columns([1, 2, 1])
+        
+        with col2:
+            with st.container():
+                with SQLiteDatabase("accounting.db") as db:
+                    user_details = db.fetch_if("Members", {"username": logged_in_username})
+
+                if user_details:
+                    user_detail = user_details[0]  # Assuming there is only one user detail record
+                    st.markdown("**Profile Details:**")
+                    st.write("**Username:**", user_detail.get("username", ""))
+                    st.write("**Name:**", user_detail.get("full_name", ""))
+                    st.write("**Email:**", user_detail.get("email", ""))
+                    st.write("**Phone Number:**", user_detail.get("phone", ""))
+                    st.write("**Position:**", user_detail.get("position", ""))
+                    st.write("**Joined Date:**", user_detail.get("joined_date", ""))
+                    st.write("**Performance Metrics:**", user_detail.get("performance_metrics", ""))
+                else:
+                    st.error("User details not found.")
     else:
         st.error("User details not found. Please log in.")
+
+
