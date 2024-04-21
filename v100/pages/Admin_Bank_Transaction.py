@@ -9,7 +9,7 @@ def main():
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  
-            options=["Add Transaction", "View Transaction ", "Edit Transaction ","Remove Transaction", "Return"],
+            options=["Add Transaction", "View Transaction", "Edit Transaction","Remove Transaction", "Return"],
             icons=["plus-circle", "eye", "cloud-upload", "person-x-fill","arrow-return-left"],
             orientation="vertical",
             styles={
@@ -30,18 +30,19 @@ def main():
             <div style="text-align:center">
                 <h1>Account Management System</h1>
                 <h3>Trojan Club of Robotics-TCR</h3>
+                <h4>Bank Transaction</h4
             </div>
             """,
             unsafe_allow_html=True
         )
         if  selected_option == 'Add Transaction':
             insert_transaction_ui()
-        elif selected_option == 'View Executive Member':
-            pass
-        elif selected_option == 'Update Executive Member':
-            pass
-        elif selected_option == 'Remove Executive Member':
-            pass
+        elif selected_option == 'View Transaction':
+            view_transaction_ui()
+        elif selected_option == 'Edit Transaction':
+            update_transaction_ui()
+        elif selected_option == 'Remove Transaction':
+            remove_transaction_ui()
         elif selected_option == 'Return':
             st.switch_page('pages/Admin_Admin_Panel.py')
         

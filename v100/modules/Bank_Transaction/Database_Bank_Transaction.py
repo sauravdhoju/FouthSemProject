@@ -29,11 +29,9 @@ def insert_transaction(db, transaction_date, description, last_updated_by, debit
     db.create_record("Bank_Transactions", record_data)
     return True
 
-# Function to fetch all transactions
 def fetch_all_transactions(db):
     return db.retrieve_records("Bank_Transactions")
 
-# Function to update a transaction
 def update_transaction(db, transaction_number, transaction_date, description, last_updated_by, debit, credit):
     new_data = {
         "transaction_date": transaction_date,
@@ -46,7 +44,16 @@ def update_transaction(db, transaction_number, transaction_date, description, la
     conditions = {"transaction_number": transaction_number}
     db.update_record("Bank_Transactions", new_data, conditions)
 
-# Function to delete a transaction
 def delete_transaction(db, transaction_number):
-    conditions = {"transaction_number": transaction_number}
-    db.delete_record("Bank_Transactions", conditions)
+    try:
+        conditions = {"transaction_number": transaction_number}
+        deleted = db.delete_record("Bank_Transactions", conditions)
+        if deleted:
+            print("transaction has been deleted")
+            return True
+        else:
+            print("No matchning transaction found")
+            return False
+    except Exception as e:
+        print(f"Error deleting category: {e}")
+        return False

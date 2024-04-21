@@ -13,7 +13,7 @@ def main():
         st.image("background.png", output_format="auto")
         selected_option = option_menu(
             menu_title=None,  # Title of the menu
-            options=["Your Profile", "Return"], 
+            options=["My Profile", "Return"], 
             icons=["people", "power"], 
             menu_icon="th-large",  
             default_index=0, 
@@ -37,11 +37,12 @@ def main():
             <div style="text-align:center">
                 <h1>Account Management System</h1>
                 <h3>Trojan Club of Robotics-TCR</h3>
+                <h4>My Profile</h4
             </div>
             """,
             unsafe_allow_html=True
         )
-        if selected_option == "Your Profile":
+        if selected_option == "My Profile":
             view_user_details_ui()
         elif selected_option == "Return":
             st.switch_page('pages/Admin_Admin_Panel.py')

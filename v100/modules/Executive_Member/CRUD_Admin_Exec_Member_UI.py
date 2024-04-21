@@ -206,7 +206,6 @@ def get_logged_in_user_details():
 def view_user_details_ui():
     logged_in_username = get_logged_in_user_details() 
     if logged_in_username:
-        st.title("My Profile")
         st.write(f"Logged in as: {logged_in_username}")
 
         st.subheader("User Details")
