@@ -15,7 +15,7 @@ def main():
             
             orientation="vertical",
             styles={
-                "container": {"padding": "0!important", "background-color": "#fafafa"},
+                "container": {"padding": "0!important", "background-color": "#cef6ff"},
                 "icon": {"color": "green", "font-size": "20px"},  # Customize icon appearance
                 "nav-link": {
                     "font-size": "15px",

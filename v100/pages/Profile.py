@@ -7,7 +7,6 @@ from pages.Login_Page import main as login
 from modules.Executive_Member.CRUD_Admin_Exec_Member_UI import view_user_details_ui
 
 
-# st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
 def main():
     col1_nav_panel, col2_dashboard_pan= st.columns([1,5])
     with col1_nav_panel:
@@ -18,10 +17,10 @@ def main():
             icons=["people", "power"], 
             menu_icon="th-large",  
             default_index=0, 
-            orientation="vertical",  # Orientation of the menu (vertical or horizontal)
+            orientation="vertical", 
             styles={
                 "container": {"padding": "0!important", "background-color": "#fafafa"},
-                "icon": {"color": "green", "font-size": "20px"},  # Customize icon appearance
+                "icon": {"color": "green", "font-size": "20px"}, 
                 "nav-link": {
                     "font-size": "15px",
                     "text-align": "left",

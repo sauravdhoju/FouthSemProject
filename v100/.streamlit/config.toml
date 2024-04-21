@@ -1,6 +1,11 @@
-[theme]
-base="light"
-primaryColor="#b1d0de"
+
 
 [client]
 showSidebarNavigation = false
+
+[theme]
+base="light"
+primaryColor="#cbe9ea"
+backgroundColor="#cef6ff"
+secondaryBackgroundColor="#a0a1a2"
+

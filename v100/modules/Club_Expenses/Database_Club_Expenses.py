@@ -48,21 +48,21 @@ def create_club_expense_table(db):
         "FOREIGN KEY (category_name)": "REFERENCES Expense_Categories(category_name)"
     }
 
-    training_columns = {
-        "training_id": "INTEGER PRIMARY KEY",
-        "training_name": "TEXT UNIQUE NOT NULL",
-        "start_date": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
-        "end_date": "TIMESTAMP",
-        "venue": "TEXT",
-        "description": "TEXT"
-    }
+    # training_columns = {
+    #     "training_id": "INTEGER PRIMARY KEY",
+    #     "training_name": "TEXT UNIQUE NOT NULL",
+    #     "start_date": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+    #     "end_date": "TIMESTAMP",
+    #     "venue": "TEXT",
+    #     "description": "TEXT"
+    # }
     
     
     db.create_table("Expense_Categories", expense_categories_columns)
     db.create_table("Receipts", receipt_columns)
     db.create_table("Financial_Reports", financial_reports_columns)
     db.create_table("Payments", payments_columns)
-    db.create_table("Training", training_columns)
+    # db.create_table("Training", training_columns)
     print("Expense tables created successfully.")
     
 #EXPENSE CATEGORY

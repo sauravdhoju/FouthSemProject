@@ -4,13 +4,14 @@ from modules.Club_Expenses.Database_Club_Expenses import create_club_expense_tab
 from modules.database import *
 from passlib.hash import pbkdf2_sha256
 from modules.Executive_Member.Database_Exec_Member_Management import add_executive_member
-
+from modules.Bank_Transaction.Database_Bank_Transaction import create_bank_transaction_table
 st.session_state['is_logged_in'] = False
 
 def main():
     with SQLiteDatabase("accounting.db") as db:
         create_member_table(db)
         create_club_expense_table(db)
+        create_bank_transaction_table(db)
         
         if not db.fetch_if("Members", {"username": "admin"}):
             default_pass_hash = pbkdf2_sha256.hash('admin')

@@ -14,7 +14,7 @@ def main():
             icons=["plus-circle", "eye", "cloud-upload", "person-x-fill","arrow-return-left"],
             orientation="vertical",
             styles={
-                "container": {"padding": "0!important", "background-color": "#fafafa"},
+                "container": {"padding": "0!important", "background-color": "#cef6ff"},
                 "icon": {"color": "green", "font-size": "20px"},  # Customize icon appearance
                 "nav-link": {
                     "font-size": "15px",

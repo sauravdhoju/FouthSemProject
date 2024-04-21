@@ -17,7 +17,7 @@ def main():
             default_index=0, 
             orientation="vertical",  # Orientation of the menu (vertical or horizontal)
             styles={
-                "container": {"padding": "0!important", "background-color": "#fafafa"},
+                "container": {"padding": "0!important", "background-color": "#cef6ff"},
                 "icon": {"color": "green", "font-size": "20px"},  # Customize icon appearance
                 "nav-link": {
                     "font-size": "15px",
