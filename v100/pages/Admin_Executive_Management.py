@@ -2,17 +2,31 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 from pages.Login_Page import main as login
 from modules.Executive_Member.CRUD_Admin_Exec_Member_UI import add_executive_members_ui, display_executive_members_ui, delete_executive_members_ui, update_executive_members_ui
+from modules.Permission.hasPermission import *
 
-
+def optionsByRole(options_dict, on):
+    opt = []
+    for option in options_dict:
+            if has_permission(st.session_state['username'], options_dict[option], "executives"):
+                opt.append(option)
+            # print(option, options_dict[option], has_permission(st.session_state['username'], options_dict[option], "executives"))
+    opt.append("Return")
+    return opt
 def main():
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
     with col1_exe_nav_panel:
         st.image("background.png", output_format="auto")
+        options_dict = {"Add Executive Member" : "add", 
+                   "View Executive Member": "view", 
+                   "Update Executive Member": "edit",
+                   "Remove Executive Member": "delete"
+                }
         selected_option = option_menu(
             menu_title=None,  
-            options=["Add Executive Member", "View Executive Member", "Update Executive Member","Remove Executive Member", "Return"],
             icons=["plus-circle", "eye", "cloud-upload", "person-x-fill","arrow-return-left"],
             orientation="vertical",
+            # options=["Add Executive Member", "View Executive Member", "Update Executive Member","Remove Executive Member", "Return"],    
+            options=optionsByRole(options_dict, "executives"),       
             styles={
                 "container": {"padding": "0!important", "background-color": "#cef6ff"},
                 "icon": {"color": "green", "font-size": "20px"},  # Customize icon appearance
