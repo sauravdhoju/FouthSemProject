@@ -26,6 +26,8 @@ class SQLiteDatabase:
         except sqlite3.Error as e:
             print(f"Error creating table '{table_name}': {e}")
 
+            print(f"Error creating table '{table_name}': {e}")
+
     def create_record(self, table_name, record_data):
         try:
             with self.connection:
