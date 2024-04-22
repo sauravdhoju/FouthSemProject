@@ -4,9 +4,9 @@ from modules.PickMeIfYouLike.options import *
 
 def main():
     dashboardOption(
-        options_dict = {"My Profile" :    ["view",             view_user_details_ui                              ,"people"], 
-                        "Return":      ["return",      lambda: st.switch_page("pages/membership_management.py")     ,"arrow-return-left"],
-                    }
+        options_dict = {"My Profile" : ["view",                view_user_details_ui                     ,"people"], 
+                        "Return":      ["return",      lambda: st.switch_page("pages/dashboard.py")     ,"arrow-return-left"],
+                    }, functionality="profile"
     )
 
 if __name__ == "__main__":

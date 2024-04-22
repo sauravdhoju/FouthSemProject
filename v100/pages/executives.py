@@ -10,7 +10,7 @@ def main():
                         "Update Executive Member":  ["edit",                update_executive_members_ui             ,"cloud-upload"],           
                         "Remove Executive Member":  ["delete",              delete_executive_members_ui             ,"person-x-fill"],
                         "Return":                   ["return",      lambda: st.switch_page("pages/dashboard.py")    ,"arrow-return-left"],
-                    }
+                    }, functionality="executives"
     )
 
 if __name__ == "__main__":

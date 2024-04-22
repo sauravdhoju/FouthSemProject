@@ -10,7 +10,7 @@ def main():
                         "Update Receipt":  ["edit",                update_receipt_ui                            ,"cloud-upload"],           
                         "Remove Receipt":  ["delete",              remove_receipt_ui                            ,"person-x-fill"],
                         "Return":          ["return",      lambda: st.switch_page("pages/club_expenses.py")     ,"arrow-return-left"],
-                    }
+                    }, functionality="receipt_management"
     )
 
 if __name__ == "__main__":

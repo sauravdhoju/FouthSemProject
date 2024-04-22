@@ -9,14 +9,14 @@ def optionsByRole(options_dict, on):
             if has_permission(st.session_state['username'], options_dict[option][0], on) or option=="Return" or options_dict[option][0]=="":
                 opt.append(option)
                 icons.append(options_dict[option][2])
-            print(option, options_dict[option], has_permission(st.session_state['username'], options_dict[option][0], "executives"))
+            print(option, options_dict[option], has_permission(st.session_state['username'], options_dict[option][0], on))
     return opt, icons
 
-def dashboardOption(options_dict):
+def dashboardOption(options_dict, functionality):
     col1_exe_nav_panel,col2_exe_dashboard = st.columns([1,5])
     with col1_exe_nav_panel:
         st.image("background.png", output_format="auto")
-        option, icon = optionsByRole(options_dict, "executives")
+        option, icon = optionsByRole(options_dict, functionality)
         selected_option = option_menu(
             menu_title=None,  
             icons=icon,

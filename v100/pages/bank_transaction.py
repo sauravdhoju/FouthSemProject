@@ -9,7 +9,7 @@ def main():
                         "Update Transaction":  ["edit",                update_transaction_ui                        ,"cloud-upload"],           
                         "Remove Transaction":  ["delete",              remove_transaction_ui                        ,"person-x-fill"],
                         "Return":              ["return",      lambda: st.switch_page("pages/dashboard.py")         ,"arrow-return-left"],
-                    }
+                    }, functionality="bank_transaction"
     )
 
 if __name__ == "__main__":

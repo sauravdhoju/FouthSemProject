@@ -9,7 +9,7 @@ def main():
                         "Update Payment":  ["edit",                update_payment_ui             ,"cloud-upload"],           
                         "Remove Payment":  ["delete",              delete_payment_ui             ,"person-x-fill"],
                         "Return":          ["return",      lambda: st.switch_page("pages/membership_management.py")    ,"arrow-return-left"],
-                    }
+                    }, functionality="record_payment"
     )
 
 if __name__ == "__main__":

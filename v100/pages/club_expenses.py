@@ -10,7 +10,7 @@ def main():
                     # "Training and Education": ["",        lambda:  st.switch_page('pages/Admin_Training_Education.py')    ,"tag-fill"         ],   
                     "Expense Categories":       ["",        lambda:  st.switch_page('pages/expense_category.py')            ,"cloud-upload"     ],   
                     "Return":                   ["return",  lambda:  st.switch_page("pages/dashboard.py")                   ,"arrow-return-left"],
-                    }
+                    }, functionality="club_expenses"
     )
 
 if __name__ == "__main__":

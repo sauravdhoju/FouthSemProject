@@ -17,7 +17,7 @@ def main():
                         "Bank Transaction": ["",        lambda:  st.switch_page('pages/bank_transaction.py')          ,"bank2"],  
                         "View Profile": ["",            lambda:  st.switch_page('pages/profile.py')                         ,"people"],   
                         "Logout":["",                   lambda:  (st.session_state.clear(), st.rerun())                     ,"power"],
-                        }
+                        }, functionality=""
         )
     
 if __name__ == "__main__":

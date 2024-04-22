@@ -11,7 +11,7 @@ def main():
                         "Payment Report":         ["edit",                generate_payment_report                             ,"currency-dollar"],           
                         # "Expense Report":       ["delete",              delete_executive_members_ui                         ,"receipt"],
                         "Return":                 ["return",      lambda: st.switch_page("pages/membership_management.py")    ,"arrow-return-left"],
-                    }
+                    }, functionality="generate_report"
     )
 
 if __name__ == "__main__":

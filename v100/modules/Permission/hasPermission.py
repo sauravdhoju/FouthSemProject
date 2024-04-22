@@ -3,21 +3,34 @@ from modules.database import SQLiteDatabase
 
 ROLES_PERMISSIONS = {
     "superuser": {
-        "club_expenses": {"view", "add", "edit", "delete"},
-        "membership_management": {"view", "add", "edit", "delete"},
-        "bank_transactions": {"view", "add", "edit", "delete"},
-        "executives": {"view", "add", "edit", "delete"}
+        "club_expenses":            {"add", "view", "edit", "delete"},
+        "membership_management":    {"add", "view", "edit", "delete"},
+        "bank_transaction":         {"add", "view", "edit", "delete"},
+        "executives":               {"add", "view", "edit", "delete"}
     },
     "Secretary": {
-        "club_expenses": {"view"},
-        "membership_management": {"view"},
-        "bank_transactions": {"view"}
+        "club_expenses":            {"view"},
+        "membership_management":    {"view"},
+        "bank_transaction":         {"view"},        
+        "executives":               {"view"},
+        "profile":                  {"view"},
+        "record_payment":           {"view"},
+        "view_history_payment":     {"view"},
+        "generate_report":          {"view"},
+        "receipt_management":       {"view"},
+        "expense_category":         {"view"},
     },
     "Treasurer": {
-        "club_expenses": {"view"},
-        "membership_management": {"view", "generate_report"},
-        "bank_transactions": {"view", "add", "edit", "delete"},
-        "executives": {"add", "edit"},
+        "club_expenses":            {"view"},
+        "membership_management":    {"view"},
+        "bank_transaction":         {"add", "view"},        
+        "executives":               {"view"},
+        "profile":                  {"view"},
+        "record_payment":           {"view"},
+        "view_history_payment":     {"view"},
+        "generate_report":          {"view"},
+        "receipt_management":       {"view"},
+        "expense_category":         {"view"},
     },
 }
 
@@ -29,6 +42,5 @@ def has_permission(logged_in_username, action, on):
             if user_role == "superuser":
                 return True  # Admin has unrestricted access
             elif user_role in ROLES_PERMISSIONS:
-                # print(user_role) 
-                return action in ROLES_PERMISSIONS[user_role][on]
+                return action in ROLES_PERMISSIONS[user_role].get(on, set())
     return False

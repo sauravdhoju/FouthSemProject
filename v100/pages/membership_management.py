@@ -14,8 +14,7 @@ def main():
                         # "Manage Renewals":    ["",        lambda:  st.switch_page('pages/Admin_Training_Education.py')    ,"tag-fill"         ],   
                         # "Update Information": ["",        lambda:  st.switch_page('pages/Admin_Training_Education.py')    ,"tag-fill"         ],   
                         "Return":               ["return",  lambda:  st.switch_page("pages/dashboard.py")                   ,"arrow-return-left"], 
-                    }
-    )
+                    }, functionality="membership_management")
 
 if __name__ == "__main__":
     if 'username' in st.session_state:

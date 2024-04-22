@@ -9,7 +9,7 @@ def main():
                         "Update Categories":     ["edit",                update_expense_category_ui                 ,"cloud-upload"],           
                         "Remove Categories":     ["delete",              remove_expense_category_ui                 ,"person-x-fill"],
                         "Return":                ["return",      lambda: st.switch_page("pages/club_expenses.py")   ,"arrow-return-left"],
-                    }
+                    }, functionality="expense_category"
     )
 
 if __name__ == "__main__":

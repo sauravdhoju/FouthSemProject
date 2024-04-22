@@ -8,7 +8,7 @@ def main():
     dashboardOption(
         options_dict = {"History" :    ["view",                view_payment_history_ui                              ,"clock-history"], 
                         "Return":      ["return",      lambda: st.switch_page("pages/membership_management.py")     ,"arrow-return-left"],
-                    }
+                    }, functionality="view_history_payment"
     )
 
 if __name__ == "__main__":
