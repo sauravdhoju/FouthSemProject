@@ -16,6 +16,7 @@ def main():
                         "Membership Management": ["",   lambda:  st.switch_page('pages/membership_management.py')     ,"wallet2"],  
                         "Bank Transaction": ["",        lambda:  st.switch_page('pages/bank_transaction.py')          ,"bank2"],  
                         "View Profile": ["",            lambda:  st.switch_page('pages/profile.py')                         ,"people"],   
+                        # "Manage Permission": ["",            lambda:  st.switch_page('pages/permission.py')                         ,"people"],   
                         "Logout":["",                   lambda:  (st.session_state.clear(), st.rerun())                     ,"power"],
                         }, functionality=""
         )
