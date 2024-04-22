@@ -24,19 +24,22 @@ def main():
             if st.form_submit_button("Login", type="secondary"):
                 auth_result = authenticate_user(username, password)
                 if auth_result is not None and auth_result[0]:
-                    role_id = int(auth_result[1])
-                    if role_id == 1:
-                        st.session_state['is_logged_in'] = True
-                        st.session_state['username'] = username
-                        st.session_state['role_id'] = role_id
-                        st.success("Logged in as SuperUser")
-                        st.switch_page("pages/Admin_Admin_Panel.py")
-                    elif role_id == 2:
-                        st.session_state['is_logged_in'] = True
-                        st.session_state['username'] = username
-                        st.session_state['role_id'] = role_id
-                        st.success("Logged in as Executive User")
-                        st.switch_page("pages/Exe_Executive_Panel.py")
+                    st.session_state['is_logged_in'] = True
+                    st.session_state['username'] = username
+                    st.switch_page('pages/dashboard.py')
+                    # role_id = int(auth_result[1])
+                    # if role_id == 1:
+                    #     st.session_state['is_logged_in'] = True
+                    #     st.session_state['username'] = username
+                    #     st.session_state['role_id'] = role_id
+                    #     st.success("Logged in as SuperUser")
+                    #     st.switch_page("pages/Admin_Admin_Panel.py")
+                    # elif role_id == 2:
+                    #     st.session_state['is_logged_in'] = True
+                    #     st.session_state['username'] = username
+                    #     st.session_state['role_id'] = role_id
+                    #     st.success("Logged in as Executive User")
+                    #     st.switch_page("pages/Exe_Executive_Panel.py")
                 else:
                     # st.toast("Invalid Usernamr or Pasword")
                     st.error("Invalid username or password")

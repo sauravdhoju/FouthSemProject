@@ -2,7 +2,7 @@
 from modules.database import SQLiteDatabase
 
 ROLES_PERMISSIONS = {
-    "Admin": {
+    "superuser": {
         "club_expenses": {"view", "add", "edit", "delete"},
         "membership_management": {"view", "add", "edit", "delete"},
         "bank_transactions": {"view", "add", "edit", "delete"},
@@ -26,7 +26,7 @@ def has_permission(logged_in_username, action, on):
         user_details = db.fetch_if("Members", {"username": logged_in_username})
         if user_details:
             user_role = user_details[0].get("access_level")
-            if user_role == "Admin":
+            if user_role == "superuser":
                 return True  # Admin has unrestricted access
             elif user_role in ROLES_PERMISSIONS:
                 # print(user_role) 
