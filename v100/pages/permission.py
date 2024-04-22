@@ -6,8 +6,8 @@ def func1():
 def main():
     dashboardOption(
         options_dict = {"Permission" :    ["",        lambda:  func1()                                                ,"bar-chart-fill"   ],  
-                    "Return":                   ["return",  lambda:  st.switch_page("pages/dashboard.py")                   ,"arrow-return-left"],
-                    }, functionality="permission"
+                        "Return"     :    ["return",  lambda:  st.switch_page("pages/dashboard.py")                   ,"arrow-return-left"],
+                        }, functionality="permission"
     )
 
 if __name__ == "__main__":

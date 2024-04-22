@@ -44,3 +44,5 @@ def delete_permission(db, permission_id):
     except Exception as e:
         print(f"Error deleting permission: {e}")
         return False
+
+# access_level | option | add (bool) | view (bool) | edit (bool) | delete (bool) 

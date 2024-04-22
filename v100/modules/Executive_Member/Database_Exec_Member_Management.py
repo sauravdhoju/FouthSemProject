@@ -3,20 +3,20 @@ import streamlit as st
 def create_member_table(db):
     '''Member Table Creation with columns'''
     columns = {
-        "member_id": "INTEGER PRIMARY KEY",
-        "username": "TEXT UNIQUE NOT NULL",
-        "hashed_password": "TEXT NOT NULL",
-        "full_name": "TEXT NOT NULL",
-        "email": "TEXT UNIQUE",
-        "phone": "INTEGER",
-        "position": "TEXT NOT NULL",
-        "account_balance": "REAL DEFAULT 0 CHECK (account_balance >= 0)",
-        "joined_date": "DATE",
+        "member_id":           "INTEGER PRIMARY KEY",
+        "username":            "TEXT UNIQUE NOT NULL",
+        "hashed_password":     "TEXT NOT NULL",
+        "full_name":           "TEXT NOT NULL",
+        "email":               "TEXT UNIQUE",
+        "phone":               "INTEGER",
+        "position":            "TEXT NOT NULL",
+        "account_balance":     "REAL DEFAULT 0 CHECK (account_balance >= 0)",
+        "joined_date":         "DATE",
         "performance_metrics": "TEXT",
-        "active_status": "BOOLEAN",
-        "access_level": "TEXT NOT NULL",
-        "account_creation": "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
-        "role_id": "TEXT NOT NULL"
+        "active_status":       "BOOLEAN",
+        "access_level":        "TEXT NOT NULL",
+        "account_creation":    "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+        "role_id":             "TEXT NOT NULL"
     }
 
     db.create_table("Members", columns)
